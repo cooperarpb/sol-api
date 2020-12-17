@@ -186,7 +186,6 @@ Rails.application.routes.draw do
     end
 
     resources :biddings, only: [] do
-      resource :fail, module: 'biddings', only: [:update]
       resource :ongoing, module: 'biddings', only: [:update]
       resource :approve, module: 'biddings', only: [:update]
       resource :reprove, module: 'biddings', only: [:update]
