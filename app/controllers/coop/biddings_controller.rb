@@ -17,6 +17,10 @@ module Coop
 
     before_action :set_paper_trail_whodunnit
 
+    def headquarters
+      render json: build_headquarters_address(current_user.cooperative.address)
+    end
+
     private
 
     def find_biddings
@@ -33,6 +37,13 @@ module Coop
 
     def bidding_params
       params.require(:bidding).permit(*PERMITTED_PARAMS)
+    end
+
+    def build_headquarters_address(main_address)
+      full_address = main_address.address == '-' ? '' : main_address.address
+      full_address += " #{main_address.number}" if main_address.number != '-' && full_address.present?
+
+      full_address
     end
   end
 end

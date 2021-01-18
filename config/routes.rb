@@ -66,6 +66,8 @@ Rails.application.routes.draw do
   namespace :coop, path: 'cooperative', as: 'cooperative' do
     concerns :notifiable
 
+    get :headquarters, to: 'biddings#headquarters'
+
     resource :device_tokens, only: :create
     resource :dashboard, only: :show
     resource :map, only: :show
