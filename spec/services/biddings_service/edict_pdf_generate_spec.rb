@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe BiddingsService::EdictPdfGenerate, type: :service do
-  let(:bidding) { create(:bidding) }
+  let(:classification) { create(:classification, name: 'Obras') }
+  let(:bidding) { create(:bidding, classification: classification) }
   let(:params) { { bidding: bidding, file_type: 'edict' } }
 
   describe '#initialize' do
@@ -51,7 +52,7 @@ RSpec.describe BiddingsService::EdictPdfGenerate, type: :service do
 
       context 'and the bidding already have a edict_document' do
         let(:edict_document) { create(:document) }
-        let(:bidding) { create(:bidding, edict_document: edict_document) }
+        let(:bidding) { create(:bidding, edict_document: edict_document, classification: classification) }
         let(:edict_pdf_generate_return) do
           Rack::Test::UploadedFile.new(
             Rails.root.join("spec/fixtures/myfiles/file2.pdf")
