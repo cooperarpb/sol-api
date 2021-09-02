@@ -5,12 +5,12 @@ module BiddingSerializable
     include CurrentEventCancellable
 
     attributes :id, :title, :description, :kind, :status, :deadline, :link,
-        :start_date, :closing_date, :covenant_id, :covenant_name,
+        :start_date, :closing_date, :covenant_id, :covenant_name, :admin_name,
         :cancel_comment, :comment_response, :event_status, :event_id, :address,
         :can_finish, :supp_can_see, :modality, :draw_end_days, :refuse_comment,
-        :failure_comment, :minute_pdf, :edict_pdf, :classification_id,
-        :classification_name, :all_lots_failure, :code, :position, :estimated_cost_total,
-        :proposal_import_file_url
+        :failure_comment, :minute_pdf, :edict_pdf, :classification_id, :classification_name,
+        :all_lots_failure, :code, :position, :estimated_cost_total, :proposal_import_file_url,
+        :user_role
 
     has_one :cooperative, through: :covenant, serializer: Supp::CooperativeSerializer
 
@@ -55,6 +55,10 @@ module BiddingSerializable
     "#{object.covenant.number} - #{object.covenant.name}"
   end
 
+  def admin_name
+    object&.covenant&.admin&.name
+  end
+
   def can_finish
     (object.under_review? || object.reopened?) && allowed_to_finish?
   end
@@ -65,6 +69,10 @@ module BiddingSerializable
 
   def all_lots_failure
     object.fully_failed_lots?
+  end
+
+  def user_role
+    self.scope.class == Admin ? self.scope.role : ''
   end
 
   private
