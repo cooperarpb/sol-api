@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Administrator::BiddingsController, type: :controller do
-  let(:serializer) { Coop::BiddingSerializer }
+  let(:serializer) { Administrator::BiddingSerializer }
   let(:user) { create :admin }
   let!(:covenant) { create(:covenant) }
   let!(:biddings) { create_list(:bidding, 2, covenant: covenant) }
@@ -23,6 +23,7 @@ RSpec.describe Administrator::BiddingsController, type: :controller do
       let!(:params) do
         { search: 'search', page: 2, sort_column: 'biddings.created_at', sort_direction: 'desc' }
       end
+
       let(:exposed_biddings) { Bidding.all }
 
       before do
@@ -41,7 +42,7 @@ RSpec.describe Administrator::BiddingsController, type: :controller do
     end
 
     describe 'response' do
-      let(:exposed_biddings) { Bidding.not_draft }
+      let(:exposed_biddings) { Bidding.all }
 
       before { get_index }
 
@@ -51,13 +52,12 @@ RSpec.describe Administrator::BiddingsController, type: :controller do
 
       describe 'exposes' do
         let!(:bidding_draft) { create(:bidding, status: :draft) }
-
         it { expect(controller.biddings).to eq exposed_biddings }
       end
 
       describe 'JSON' do
         let(:json) { JSON.parse(response.body) }
-        let(:expected_json) { biddings.map { |bidding| format_json(serializer, bidding) } }
+        let(:expected_json) { biddings.map { |bidding| format_json(serializer, bidding, scope: user) } }
 
         it { expect(json).to match_array expected_json }
       end
@@ -109,7 +109,7 @@ RSpec.describe Administrator::BiddingsController, type: :controller do
 
      describe 'JSON' do
       let(:json) { JSON.parse(response.body) }
-      let(:expected_json) { format_json(serializer, bidding) }
+      let(:expected_json) { format_json(serializer, bidding, scope: user) }
 
       it { expect(json).to eq expected_json }
     end

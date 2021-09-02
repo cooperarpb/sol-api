@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_08_184243) do
+ActiveRecord::Schema.define(version: 2021_03_23_212351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,8 @@ ActiveRecord::Schema.define(version: 2020_06_08_184243) do
     t.bigint "city_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "phone", default: "-", null: false
+    t.string "email", default: "-"
     t.index ["addressable_type", "addressable_id"], name: "index_addresses_on_addressable_type_and_addressable_id"
     t.index ["city_id"], name: "index_addresses_on_city_id"
   end
@@ -97,11 +99,13 @@ ActiveRecord::Schema.define(version: 2020_06_08_184243) do
     t.bigint "merged_minute_document_id"
     t.string "proposal_import_file"
     t.bigint "reopen_reason_contract_id"
+    t.bigint "spreadsheet_report_id"
     t.index ["classification_id"], name: "index_biddings_on_classification_id"
     t.index ["covenant_id"], name: "index_biddings_on_covenant_id"
     t.index ["edict_document_id"], name: "index_biddings_on_edict_document_id"
     t.index ["merged_minute_document_id"], name: "index_biddings_on_merged_minute_document_id"
     t.index ["reopen_reason_contract_id"], name: "index_biddings_on_reopen_reason_contract_id"
+    t.index ["spreadsheet_report_id"], name: "index_biddings_on_spreadsheet_report_id"
   end
 
   create_table "biddings_and_minute_documents", id: false, force: :cascade do |t|
@@ -563,6 +567,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_184243) do
   add_foreign_key "biddings", "covenants"
   add_foreign_key "biddings", "documents", column: "edict_document_id"
   add_foreign_key "biddings", "documents", column: "merged_minute_document_id"
+  add_foreign_key "biddings", "documents", column: "spreadsheet_report_id"
   add_foreign_key "biddings_and_minute_documents", "biddings"
   add_foreign_key "biddings_and_minute_documents", "documents", column: "minute_document_id"
   add_foreign_key "cities", "states"
