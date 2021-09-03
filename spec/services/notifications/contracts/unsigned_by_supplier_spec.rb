@@ -1,15 +1,21 @@
 require 'rails_helper'
 
-RSpec.describe Notifications::Contracts::Created, type: [:service, :notification] do
+RSpec.describe Notifications::Contracts::UnsignedBySupplier, type: [:service, :notification] do
   include_examples 'services/concerns/init_contract'
 
-  let(:provider) { create(:provider, type: 'Provider') }
+  let(:covenant) { bidding.covenant }
+  let(:cooperative) { covenant.cooperative }
+  let(:user) { create(:user, cooperative: cooperative) }
+  let(:admin) { create(:admin) }
   let!(:contract) do
     create(:contract, proposal: proposal,
-                      supplier: supplier, supplier_signed_at: DateTime.current)
+                      status: :unsigned_by_supplier,
+                      user: user, user_signed_at: DateTime.current,
+                      supplier_signed_at: nil)
   end
   let(:params) { { contract: contract } }
   let(:service) { described_class.new(params) }
+  let(:total_of_receivers) { 2 }
 
   describe '#initialize' do
     subject { service }
@@ -21,7 +27,7 @@ RSpec.describe Notifications::Contracts::Created, type: [:service, :notification
     subject { described_class.call(params) }
 
     describe 'count' do
-      it { expect{ subject }.to change{ Notification.count }.by(2) }
+      it { expect{ subject }.to change{ Notification.count }.by(total_of_receivers) }
     end
 
     describe 'notification' do
@@ -34,21 +40,21 @@ RSpec.describe Notifications::Contracts::Created, type: [:service, :notification
 
         it { expect(notification.receivable).to eq bidding.admin }
         it { expect(notification.notifiable).to eq contract }
-        it { expect(notification.action).to eq 'contract.created' }
+        it { expect(notification.action).to eq 'contract.unsigned_by_supplier' }
         it { expect(notification.read_at).to be_nil }
 
         describe 'args' do
           let(:extra_args) { { bidding_id: bidding.id }.as_json }
 
           it { expect(notification.extra_args).to eq extra_args }
-          it { expect(notification.body_args).to eq [Contract::SUPPLIER_SIGNATURE_DEADLINE, contract.title] }
+          it { expect(notification.body_args).to eq [contract.title, bidding.title] }
         end
 
         describe 'I18n' do
-          let(:title_msg) { 'Contrato criado.' }
+          let(:title_msg) { 'Contrato não assinado pelos fornecedores.' }
           let(:body_msg) do
-            "Prazo de até <strong>#{Contract::SUPPLIER_SIGNATURE_DEADLINE} dias</strong> para assinatura do contrato "\
-            "<strong>#{contract.title}</strong>. Clique aqui para mais detalhes."
+            "O contrato <strong>#{contract.title}</strong> da licitação <strong>#{bidding.title}</strong> "\
+            "não foi assinado pelos fornecedores até o prazo de assinatura."
           end
           let(:key) { "notifications.#{notification.action}" }
           let(:title) { I18n.t("#{key}.title") % notification.title_args }
@@ -59,26 +65,26 @@ RSpec.describe Notifications::Contracts::Created, type: [:service, :notification
         end
       end
 
-      describe 'suppliers notification' do
-        let(:receivable) { supplier }
+      describe 'user notification' do
+        let(:receivable) { user }
 
-        it { expect(notification.receivable).to eq supplier }
+        it { expect(notification.receivable).to eq user }
         it { expect(notification.notifiable).to eq contract }
-        it { expect(notification.action).to eq 'contract.created' }
+        it { expect(notification.action).to eq 'contract.unsigned_by_supplier' }
         it { expect(notification.read_at).to be_nil }
 
         describe 'args' do
           let(:extra_args) { { bidding_id: bidding.id }.as_json }
 
           it { expect(notification.extra_args).to eq extra_args }
-          it { expect(notification.body_args).to eq [Contract::SUPPLIER_SIGNATURE_DEADLINE, contract.title] }
+          it { expect(notification.body_args).to eq [contract.title, bidding.title] }
         end
 
         describe 'I18n' do
-          let(:title_msg) { 'Contrato criado.' }
+          let(:title_msg) { 'Contrato não assinado pelos fornecedores.' }
           let(:body_msg) do
-            "Prazo de até <strong>#{Contract::SUPPLIER_SIGNATURE_DEADLINE} dias</strong> para assinatura do contrato "\
-            "<strong>#{contract.title}</strong>. Clique aqui para mais detalhes."
+            "O contrato <strong>#{contract.title}</strong> da licitação <strong>#{bidding.title}</strong> "\
+            "não foi assinado pelos fornecedores até o prazo de assinatura."
           end
           let(:key) { "notifications.#{notification.action}" }
           let(:title) { I18n.t("#{key}.title") % notification.title_args }

@@ -4,7 +4,7 @@ module Notifications
     private
 
     def body_args
-      [contract.title]
+      [Contract::SUPPLIER_SIGNATURE_DEADLINE, contract.title]
     end
 
     def receivables

@@ -2,7 +2,7 @@ RSpec.shared_examples 'services/concerns/proposal' do |status|
 
   let!(:contract_status) { status[:contract_status] }
 
-  include_examples 'services/concerns/init_contract'
+  include_examples 'services/concerns/init_contract', contract_status: status&.dig(:init_contract_status)
 
   before { Proposal.skip_callback(:commit, :after, :update_price_total) }
   after { Proposal.set_callback(:commit, :after, :update_price_total) }

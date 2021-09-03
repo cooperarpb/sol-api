@@ -34,7 +34,7 @@ module ContractsService
     end
 
     def cancel_and_clone_bidding!
-      BiddingsService::Cancel.call!(bidding: bidding)
+      BiddingsService::Cancel.call!(bidding: bidding, send_notification: true)
       BiddingsService::Clone.call!(bidding: bidding)
     end
 
