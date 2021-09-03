@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Contract, type: :model do
+  describe 'constants'  do
+    describe 'SUPPLIER_SIGNATURE_DEADLINE' do
+      it { expect(Contract::SUPPLIER_SIGNATURE_DEADLINE).to eq(5) }
+    end
+  end
+  
   describe 'associations' do
     it { is_expected.to belong_to :proposal }
     it { is_expected.to belong_to(:supplier).optional }
@@ -28,6 +34,16 @@ RSpec.describe Contract, type: :model do
       let!(:deleted_contract) { create(:contract, deleted_at: DateTime.current) }
 
       it { expect(Contract.all).to eq [contract] }
+    end
+  end
+
+  describe 'enums' do
+    describe 'status' do
+      let(:expected_enum) do
+        %i[waiting_signature signed completed partial_execution total_inexecution refused unsigned_by_supplier]
+      end
+
+      it { is_expected.to define_enum_for(:status).with_values(expected_enum) }
     end
   end
 
@@ -71,6 +87,63 @@ RSpec.describe Contract, type: :model do
       subject { Contract.waiting_signature_and_old }
 
       it { is_expected.to match_array [eligible_contract] }
+    end
+
+    describe 'close_to_supplier_signature_deadline' do
+      let(:supplier) { create(:supplier) }
+      let(:signed_contract) { create(:contract, :full_signed_at) }
+      let(:close_to_supplier_signature_deadline_contract) do
+        create(:contract, status: :waiting_signature, created_at: 3.days.ago, supplier: nil)
+      end
+      let(:another_waiting_signature_contract) do
+        create(:contract, status: :waiting_signature, created_at: Date.today, supplier: nil)
+      end
+      
+      before do
+        signed_contract
+        close_to_supplier_signature_deadline_contract
+        another_waiting_signature_contract
+      end
+
+      it { expect(Contract.close_to_supplier_signature_deadline).to match_array([close_to_supplier_signature_deadline_contract]) }
+    end
+
+    describe 'last_day_of_supplier_signature_deadline' do
+      let(:supplier) { create(:supplier) }
+      let(:signed_contract) { create(:contract, :full_signed_at) }
+      let(:last_day_of_supplier_signature_deadline_contract) do
+        create(:contract, status: :waiting_signature, created_at: 4.days.ago, supplier: nil)
+      end
+      let(:another_waiting_signature_contract) do
+        create(:contract, status: :waiting_signature, created_at: Date.today, supplier: nil)
+      end
+      
+      before do
+        signed_contract
+        last_day_of_supplier_signature_deadline_contract
+        another_waiting_signature_contract
+      end
+
+      it { expect(Contract.last_day_of_supplier_signature_deadline).to match_array([last_day_of_supplier_signature_deadline_contract]) }
+    end
+
+    describe 'expired_supplier_signature_deadline' do
+      let(:supplier) { create(:supplier) }
+      let(:signed_contract) { create(:contract, :full_signed_at) }
+      let(:expired_supplier_signature_deadline_contract) do
+        create(:contract, status: :waiting_signature, created_at: 5.days.ago, supplier: nil)
+      end
+      let(:another_waiting_signature_contract) do
+        create(:contract, status: :waiting_signature, created_at: Date.today, supplier: nil)
+      end
+      
+      before do
+        signed_contract
+        expired_supplier_signature_deadline_contract
+        another_waiting_signature_contract
+      end
+
+      it { expect(Contract.expired_supplier_signature_deadline).to match_array([expired_supplier_signature_deadline_contract]) }
     end
   end
 

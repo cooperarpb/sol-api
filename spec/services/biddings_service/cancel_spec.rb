@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe BiddingsService::Cancel, type: :service do
   let(:bidding) { create(:bidding, status: 1) }
-  let(:service) { described_class.new(bidding: bidding) }
+  let(:service) { described_class.new(bidding: bidding, send_notification: true) }
   let!(:api_response) { double('api_response', success?: true) }
   let(:endpoint) { Blockchain::Bidding::Base::ENDPOINT + "/#{bidding.id}" }
 
@@ -28,7 +28,15 @@ RSpec.describe BiddingsService::Cancel, type: :service do
       end
 
       describe 'the notification' do
-        it { expect(Notifications::Biddings::CancellationRequests::Approved).to have_received(:call).with(bidding) }
+        context 'when send_notification param equals true' do
+          it { expect(Notifications::Biddings::CancellationRequests::Approved).to have_received(:call).with(bidding) }
+        end
+
+        context 'when send_notification param equals false' do
+          let(:service) { described_class.new(bidding: bidding, send_notification: false) }
+
+          it { expect(Notifications::Biddings::CancellationRequests::Approved).not_to have_received(:call).with(bidding) }
+        end
       end
 
       it { expect(bidding.reload.canceled?).to be_truthy }
