@@ -32,7 +32,14 @@ RSpec.describe Administrator::Proposals::RefusesController, type: :controller do
     describe 'JSON' do
       
       context 'when updated' do
-        before { post_update }
+        before do
+          # XXX: Força todas as propostas da licitação não estarem recisadas para testar
+          # o fluxo sem a chamada do bidding_failure_service
+          allow_any_instance_of(Bidding).to receive(:fully_refused_proposals?).and_return(false) 
+
+          post_update
+        end
+
         it { expect(response).to have_http_status :ok }
       end
 

@@ -21,11 +21,11 @@ module BaseRefusesController
   # Caso contrário, retorna o status da aprovação da recusa da proposta.
   def render_status
     refused_status = refused?
-    (refused_status && bidding_fully_failed_lots?) ? bidding_failure_service : refused_status
+    (refused_status && bidding_fully_refused_proposals?) ? !!bidding_failure_service : refused_status
   end
 
-  def bidding_fully_failed_lots?
-    bidding.fully_failed_lots?
+  def bidding_fully_refused_proposals?
+    bidding.fully_refused_proposals?
   end
 
   def bidding_failure_service

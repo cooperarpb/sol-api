@@ -15,7 +15,7 @@ RSpec.shared_examples "controllers/concerns/base_refuses_controller" do |key|
     context 'when all lots from proposal`s bidding have failure status' do
       context 'and BiddingsService::Failure returns true' do            
         before do
-          allow_any_instance_of(Bidding).to receive(:fully_failed_lots?).and_return(true) 
+          allow_any_instance_of(Bidding).to receive(:fully_refused_proposals?).and_return(true) 
 
           post_update
         end
@@ -27,7 +27,7 @@ RSpec.shared_examples "controllers/concerns/base_refuses_controller" do |key|
       context 'and BiddingsService::Failure returns false' do
         before do
           allow(BiddingsService::Failure).to receive(:call).with(bidding_service_failure_params) { false }
-          allow_any_instance_of(Bidding).to receive(:fully_failed_lots?).and_return(true) 
+          allow_any_instance_of(Bidding).to receive(:fully_refused_proposals?).and_return(true) 
 
           post_update
         end
@@ -39,7 +39,7 @@ RSpec.shared_examples "controllers/concerns/base_refuses_controller" do |key|
 
     context 'when not all lots from proposal`s bidding have failure status' do
       before do 
-        allow_any_instance_of(Bidding).to receive(:fully_failed_lots?).and_return(false) 
+        allow_any_instance_of(Bidding).to receive(:fully_refused_proposals?).and_return(false) 
         
         post_update
       end

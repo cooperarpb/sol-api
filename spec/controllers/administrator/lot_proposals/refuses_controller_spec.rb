@@ -35,6 +35,7 @@ RSpec.describe Administrator::LotProposals::RefusesController, type: :controller
     describe 'JSON' do
       context 'when updated' do
         before { post_update }
+        
         it { expect(response).to have_http_status :ok }
       end
 
