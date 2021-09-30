@@ -1,0 +1,6 @@
+fr-FR:
+  services:
+    biddings:
+      system_bidding_failure:
+        comment: >
+          Echec de l'enchère par le système

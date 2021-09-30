@@ -33,17 +33,20 @@ RSpec.describe Administrator::LotProposals::RefusesController, type: :controller
     end
 
     describe 'JSON' do
-      before { post_update }
-
       context 'when updated' do
+        before { post_update }
         it { expect(response).to have_http_status :ok }
       end
 
       context 'when not updated' do
+        before { post_update }
+
         let(:service_response) { false }
 
         it { expect(response).to have_http_status :unprocessable_entity }
       end
+
+      it_behaves_like "controllers/concerns/base_refuses_controller"
     end
   end
 end

@@ -1,0 +1,5 @@
+en-US:
+  services:
+    biddings:
+      system_bidding_failure:
+        comment: 'Failed bid by system'
