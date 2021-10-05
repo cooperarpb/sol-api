@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_23_212351) do
+ActiveRecord::Schema.define(version: 2021_10_05_132531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,6 +149,7 @@ ActiveRecord::Schema.define(version: 2021_03_23_212351) do
     t.bigint "document_id"
     t.integer "deadline"
     t.string "title"
+    t.text "inexecution_reason"
     t.index ["document_id"], name: "index_contracts_on_document_id"
     t.index ["proposal_id"], name: "index_contracts_on_proposal_id"
     t.index ["supplier_id"], name: "index_contracts_on_supplier_id"
