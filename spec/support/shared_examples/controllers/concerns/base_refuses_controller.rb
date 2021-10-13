@@ -4,7 +4,7 @@ RSpec.shared_examples "controllers/concerns/base_refuses_controller" do |key|
       { 
         bidding: bidding,
         creator: user,
-        comment: I18n.t('services.biddings.system_bidding_failure.comment')
+        comment: Events::ProposalStatusChange.where(eventable: bidding.proposals).map(&:comment).join('. ')
       }
     end
 

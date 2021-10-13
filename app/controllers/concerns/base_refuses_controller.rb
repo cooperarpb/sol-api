@@ -36,7 +36,16 @@ module BaseRefusesController
     {
       bidding: bidding,
       creator: current_user,
-      comment: I18n.t('services.biddings.system_bidding_failure.comment')
+      comment: bidding_failure_service_comment
     }
+  end
+
+  # XXX: O comentário final será o compilado dos motivos das recusas de cada proposta
+  # por parte da associação
+  def bidding_failure_service_comment
+    Events::ProposalStatusChange
+      .where(eventable: bidding.proposals.refused)
+      .map(&:comment)
+      .join('. ')
   end
 end

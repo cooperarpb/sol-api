@@ -1,5 +1,0 @@
-es-PY:
-  services:
-    biddings:
-      system_bidding_failure:
-        comment: 'Licitación fallida por sistema'

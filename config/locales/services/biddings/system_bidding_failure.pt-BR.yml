@@ -1,5 +1,0 @@
-pt-BR:
-  services:
-    biddings:
-      system_bidding_failure:
-        comment: 'Licitação fracassada pelo sistema'
