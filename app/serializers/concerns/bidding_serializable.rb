@@ -10,13 +10,17 @@ module BiddingSerializable
         :can_finish, :supp_can_see, :modality, :draw_end_days, :refuse_comment,
         :failure_comment, :minute_pdf, :edict_pdf, :classification_id,
         :classification_name, :all_lots_failure, :code, :position, :estimated_cost_total,
-        :proposal_import_file_url
+        :proposal_import_file_url, :user_role
 
     has_one :cooperative, through: :covenant, serializer: Supp::CooperativeSerializer
 
     has_many :additives
 
     has_many :contracts, serializer: Coop::ContractSerializer
+  end
+
+  def user_role
+    self.scope.class == Admin ? self.scope.role : ''
   end
 
   def proposal_import_file_url
