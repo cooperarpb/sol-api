@@ -1,6 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe ContractsService::Proposals::TotalInexecution, type: :service do
+  let(:permitted_params) do
+    [:id, :inexecution_reason]
+  end
+
+  let(:params) do
+    { contract: { id: contract.id, inexecution_reason: 'Motivo' } }
+  end
+
+  let(:contract_params) do
+    ActionController::Parameters.
+      new(params).require(:contract).permit(permitted_params)
+  end
+
   before do
     allow(Notifications::Contracts::TotalInexecution).
       to receive(:call).with(contract: contract).and_return(true)
@@ -9,6 +22,17 @@ RSpec.describe ContractsService::Proposals::TotalInexecution, type: :service do
   end
 
   subject(:service_call) { described_class.call(contract: contract) }
+
+  describe '#initialize' do
+    include_examples 'services/concerns/init_contract'
+
+    let(:args) { { contract: contract, contract_params: contract_params } }
+
+    subject { described_class.new(args) }
+
+    it { expect(subject.contract).to eq contract }
+    it { expect(subject.contract_params).to eq contract_params }
+  end
 
   context 'when the bidding type is global' do
     include_examples 'services/concerns/proposal', contract_status: :total_inexecution
@@ -108,5 +132,19 @@ RSpec.describe ContractsService::Proposals::TotalInexecution, type: :service do
     end
 
     it { is_expected.to be_falsy }
+  end
+
+  context 'when contract_params is present' do
+    include_examples 'services/concerns/init_contract'
+
+    subject(:service_call) { described_class.call(contract: contract, contract_params: contract_params) }
+
+    before do 
+      service_call
+
+      contract.reload
+    end
+
+    it { expect(contract.inexecution_reason).to eq('Motivo') }
   end
 end

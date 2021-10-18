@@ -2,6 +2,10 @@ module Coop::Contract
   class TotalInexecution::ProposalsController < CoopController
     include CrudController
 
+    PERMITTED_PARAMS = [
+      :id, :inexecution_reason
+    ].freeze
+
     load_and_authorize_resource :contract, parent: false
 
     expose :contract
@@ -15,7 +19,11 @@ module Coop::Contract
     end
 
     def updated?
-      ContractsService::Proposals::TotalInexecution.call(contract: contract)
+      ContractsService::Proposals::TotalInexecution.call(contract: contract, contract_params: contract_params)
+    end
+
+    def contract_params
+      params.require(:contract).permit(*PERMITTED_PARAMS)
     end
   end
 end

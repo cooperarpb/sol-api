@@ -18,12 +18,17 @@ RSpec.describe Coop::Contract::TotalInexecution::ProposalsController, type: :con
   before { oauth_token_sign_in user }
 
   describe '#update' do
-    let(:params) { { contract_id: contract.id } }
+    let(:params) { { contract_id: contract.id, contract: { id: contract.id.to_s, inexecution_reason: 'Motivo' } } }
     let(:service_response) { contract.total_inexecution! }
+    let(:permitted_params) { [:id, :inexecution_reason] }
 
+    let(:params_service) do
+      ActionController::Parameters.new(params).require(:contract).permit(permitted_params)
+    end
+    
     before do
       allow(ContractsService::Proposals::TotalInexecution).
-        to receive(:call).with(contract: contract) { service_response }
+      to receive(:call).with(contract: contract, contract_params: params_service) { service_response }
     end
 
     subject(:post_update) { patch :update, params: params, xhr: true }
@@ -43,7 +48,7 @@ RSpec.describe Coop::Contract::TotalInexecution::ProposalsController, type: :con
         end
 
         it { expect(response).to have_http_status :ok }
-        it { expect(ContractsService::Proposals::TotalInexecution).to have_received(:call).with(contract: contract) }
+        it { expect(ContractsService::Proposals::TotalInexecution).to have_received(:call).with(contract: contract, contract_params: params_service) }
       end
 
       context 'when not updated' do
