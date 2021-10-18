@@ -14,6 +14,10 @@ module ContractsService
       contract.total_inexecution!
     end
 
+    def update_contract!
+      contract.update!(contract_params) if contract_params.present?
+    end
+
     def notify
       Notifications::Contracts::TotalInexecution.call(contract: contract)
     end
