@@ -4,6 +4,7 @@ module BiddingsService
     include Call::WithExceptionsMethods
 
     def main_method
+      @counter = 0
       execute_and_perform
     end
 
@@ -21,6 +22,8 @@ module BiddingsService
     def approve
       @approve ||= begin
         execute_or_rollback do
+          @counter += 1
+          puts "counter => #{@counter}"
           bidding.approved!
           bidding.reload
           create_bidding_at_blockchain!
