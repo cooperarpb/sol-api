@@ -140,11 +140,13 @@ RSpec.describe ContractsService::Proposals::TotalInexecution, type: :service do
     subject(:service_call) { described_class.call(contract: contract, contract_params: contract_params) }
 
     before do 
+      allow(Bidding::Minute::AddendumInexecutionReasonPdfGenerateWorker).to receive(:perform_async).with(contract.id)
       service_call
 
       contract.reload
     end
 
     it { expect(contract.inexecution_reason).to eq('Motivo') }
+    it { expect(Bidding::Minute::AddendumInexecutionReasonPdfGenerateWorker).to have_received(:perform_async).with(contract.id) }
   end
 end
