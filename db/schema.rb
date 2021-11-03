@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_05_132531) do
+ActiveRecord::Schema.define(version: 2021_10_27_163324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,12 +100,21 @@ ActiveRecord::Schema.define(version: 2021_10_05_132531) do
     t.string "proposal_import_file"
     t.bigint "reopen_reason_contract_id"
     t.bigint "spreadsheet_report_id"
+    t.bigint "merged_inexecution_reason_document_id"
     t.index ["classification_id"], name: "index_biddings_on_classification_id"
     t.index ["covenant_id"], name: "index_biddings_on_covenant_id"
     t.index ["edict_document_id"], name: "index_biddings_on_edict_document_id"
+    t.index ["merged_inexecution_reason_document_id"], name: "index_biddings_on_merged_inexecution_reason_document_id"
     t.index ["merged_minute_document_id"], name: "index_biddings_on_merged_minute_document_id"
     t.index ["reopen_reason_contract_id"], name: "index_biddings_on_reopen_reason_contract_id"
     t.index ["spreadsheet_report_id"], name: "index_biddings_on_spreadsheet_report_id"
+  end
+
+  create_table "biddings_and_inexecution_reason_documents", force: :cascade do |t|
+    t.bigint "bidding_id"
+    t.bigint "inexecution_reason_document_id"
+    t.index ["bidding_id"], name: "index_biddings_and_inexecution_reason_documents_on_bidding_id"
+    t.index ["inexecution_reason_document_id"], name: "index_baird_on_inexecution_reason_document_id"
   end
 
   create_table "biddings_and_minute_documents", id: false, force: :cascade do |t|
@@ -227,6 +236,12 @@ ActiveRecord::Schema.define(version: 2021_10_05_132531) do
     t.bigint "covenant_id"
     t.integer "group_items_count", default: 0
     t.index ["covenant_id"], name: "index_groups_on_covenant_id"
+  end
+
+  create_table "inexecution_reason_documents", force: :cascade do |t|
+    t.string "file"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "integration_configurations", force: :cascade do |t|
@@ -569,6 +584,9 @@ ActiveRecord::Schema.define(version: 2021_10_05_132531) do
   add_foreign_key "biddings", "documents", column: "edict_document_id"
   add_foreign_key "biddings", "documents", column: "merged_minute_document_id"
   add_foreign_key "biddings", "documents", column: "spreadsheet_report_id"
+  add_foreign_key "biddings", "inexecution_reason_documents", column: "merged_inexecution_reason_document_id"
+  add_foreign_key "biddings_and_inexecution_reason_documents", "biddings"
+  add_foreign_key "biddings_and_inexecution_reason_documents", "inexecution_reason_documents"
   add_foreign_key "biddings_and_minute_documents", "biddings"
   add_foreign_key "biddings_and_minute_documents", "documents", column: "minute_document_id"
   add_foreign_key "cities", "states"

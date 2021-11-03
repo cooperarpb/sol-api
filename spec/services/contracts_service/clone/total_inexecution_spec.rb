@@ -20,7 +20,7 @@ RSpec.describe ContractsService::Clone::TotalInexecution, type: :service do
     allow(Blockchain::Contract::Update).to receive(:call!).and_return(true)
   end
 
-  subject(:service_call) { described_class.call(contract: contract) }
+  subject(:service_call) { described_class.call(contract: contract, contract_params: contract_params) }
 
   context 'when the bidding type is global' do
     include_examples 'services/concerns/clone', contract_status: :total_inexecution
@@ -117,12 +117,14 @@ RSpec.describe ContractsService::Clone::TotalInexecution, type: :service do
 
     subject(:service_call) { described_class.call(contract: contract, contract_params: contract_params) }
 
-    before do 
+    before do
+      allow(Bidding::Minute::AddendumInexecutionReasonPdfGenerateWorker).to receive(:perform_async).with(contract.id)
       service_call
 
       contract.reload
     end
 
     it { expect(contract.inexecution_reason).to eq('Motivo') }
+    it { expect(Bidding::Minute::AddendumInexecutionReasonPdfGenerateWorker).to have_received(:perform_async).with(contract.id) }
   end
 end
