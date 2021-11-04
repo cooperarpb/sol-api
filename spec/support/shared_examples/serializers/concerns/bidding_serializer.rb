@@ -42,6 +42,7 @@ RSpec.shared_examples "a bidding_serializer" do
     it { is_expected.to include 'position' => object.position }
     it { is_expected.to include 'proposal_import_file_url' => object.proposal_import_file&.url }
     it { expect(subject['minute_pdf']).to include('file.pdf')}
+    it { expect(subject['inexecution_reason_pdf']).to include('file.pdf')}
     it { expect(subject['edict_pdf']).to include('file.pdf')}
 
     describe 'cancel_comment' do
