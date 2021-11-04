@@ -22,6 +22,10 @@ module Pdf::Bidding::Minute
       contract.inexecution_reason
     end
 
+    def contract_not_able_to_generate?
+      ! (contract.total_inexecution? || contract.partial_execution?)
+    end
+
     # override
     def dictionary
       {

@@ -30,6 +30,13 @@ RSpec.describe Pdf::Bidding::Minute::Addendum::InexecutionReasonHtml do
         it { is_expected.not_to include("@@") }
       end
 
+      context 'when is partial_execution?' do
+        let(:status)    { :partial_execution }
+        let(:file_type) { 'minute_addendum_total_inexecution' }
+
+        it { is_expected.not_to include("@@") }
+      end
+
       after do
         File.write(
           Rails.root.join("spec/fixtures/myfiles/#{file_type}_template.html"),
