@@ -8,9 +8,9 @@ module BiddingSerializable
         :start_date, :closing_date, :covenant_id, :covenant_name, :admin_name,
         :cancel_comment, :comment_response, :event_status, :event_id, :address,
         :can_finish, :supp_can_see, :modality, :draw_end_days, :refuse_comment,
-        :failure_comment, :minute_pdf, :edict_pdf, :classification_id, :classification_name,
-        :all_lots_failure, :code, :position, :estimated_cost_total, :proposal_import_file_url,
-        :user_role
+        :failure_comment, :minute_pdf, :edict_pdf, :classification_id,
+        :classification_name, :all_lots_failure, :code, :position, :estimated_cost_total,
+        :proposal_import_file_url, :user_role, :inexecution_reason_pdf
 
     has_one :cooperative, through: :covenant, serializer: Supp::CooperativeSerializer
 
@@ -37,6 +37,10 @@ module BiddingSerializable
 
   def minute_pdf
     object.merged_minute_document.try(:file).try(:url)
+  end
+
+  def inexecution_reason_pdf
+    object.merged_inexecution_reason_document.try(:file).try(:url)
   end
 
   def edict_pdf

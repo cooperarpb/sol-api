@@ -1,6 +1,6 @@
 RSpec.shared_examples 'services/concerns/clone' do |status|
   let!(:contract_status) { status[:contract_status] }
-  let(:service) { described_class.new(contract: contract) }
+  let(:service) { described_class.new(contract: contract, contract_params: '') }
 
   include_examples 'services/concerns/init_contract', contract_status: status&.dig(:init_contract_status)
 
@@ -10,7 +10,7 @@ RSpec.shared_examples 'services/concerns/clone' do |status|
     allow(Blockchain::Contract::Update).to receive(:call!) { api_response }
   end
 
-  subject(:service_call) { described_class.call(contract: contract) }
+  subject(:service_call) { described_class.call(contract: contract, contract_params: '') }
 
   describe '#initialize' do
     it { expect(service.contract).to eq contract }

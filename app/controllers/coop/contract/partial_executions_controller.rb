@@ -5,7 +5,7 @@ module Coop
     load_and_authorize_resource :contract, parent: false
 
     PERMITTED_PARAMS = [
-      :id, returned_lot_group_items_attributes: [
+      :id, :inexecution_reason, returned_lot_group_items_attributes: [
         :id, :lot_group_item_id, :quantity
       ]
     ].freeze
