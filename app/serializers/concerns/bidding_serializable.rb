@@ -19,6 +19,10 @@ module BiddingSerializable
     has_many :contracts, serializer: Coop::ContractSerializer
   end
 
+  def user_role
+    self.scope.class == Admin ? self.scope.role : ''
+  end
+
   def proposal_import_file_url
     object.proposal_import_file&.url
   end

@@ -155,6 +155,10 @@ class Bidding < ApplicationRecord
     proposals.not_draft_or_abandoned
   end
 
+  def fully_refused_proposals?
+    proposals.all?(&:refused?)
+  end
+
   def fully_failed_lots?
     lots.all?(&:failure?)
   end
