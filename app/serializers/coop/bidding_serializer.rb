@@ -8,7 +8,7 @@ module Coop
         :can_finish, :supp_can_see, :modality, :draw_end_days, :refuse_comment,
         :failure_comment, :minute_pdf, :edict_pdf, :classification_id, :classification_name,
         :all_lots_failure, :code, :position, :estimated_cost_total, :proposal_import_file_url,
-        :user_role
+        :user_role, :inexecution_reason_pdf
 
     has_one :cooperative, through: :covenant, serializer: Supp::CooperativeSerializer
 
@@ -66,6 +66,10 @@ module Coop
 
     def user_role
       self.scope.class == Admin ? self.scope.role : ''
+    end
+
+    def inexecution_reason_pdf
+      object.merged_inexecution_reason_document.try(:file).try(:url)
     end
 
     private

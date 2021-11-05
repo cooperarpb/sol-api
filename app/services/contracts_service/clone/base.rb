@@ -20,6 +20,7 @@ module ContractsService
     def change_status_cancel_and_clone
       execute_or_rollback do
         change_contract_status!
+        update_contract!
         cancel_and_clone!
         update_contract_blockchain!
         generate_spreadsheet_report
@@ -57,5 +58,8 @@ module ContractsService
 
     # override for notification
     def notify; end
+
+    # Atualiza o contrato com os parâmetros definidos em contract_params
+    def update_contract!; end
   end
 end
