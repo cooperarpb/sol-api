@@ -1,9 +1,11 @@
 RSpec.shared_examples "a bidding_serializer" do
-  let(:merged_minute_document) { create(:document) }
-  let(:edict_document) { create(:document) }
+  let(:merged_minute_document)             { create(:document) }
+  let(:merged_inexecution_reason_document) { create(:inexecution_reason_document) }
+  let(:edict_document)                     { create(:document) }
   let(:object) do
     create :bidding, merged_minute_document: merged_minute_document,
-                     edict_document: edict_document
+                     edict_document: edict_document,
+                     merged_inexecution_reason_document: merged_inexecution_reason_document
   end
 
   subject { format_json(described_class, object) }
