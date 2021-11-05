@@ -661,6 +661,32 @@ RSpec.describe Bidding, type: :model do
       end
     end
 
+    fdescribe '.fully_refused_proposals?' do
+      let!(:bidding)           { create(:bidding) }
+      let(:refused_proposal_1) { create(:proposal, bidding: bidding, status: :refused) }
+      let(:refused_proposal_2) { create(:proposal, bidding: bidding, status: :refused) }
+      let(:another_proposal)   { create(:proposal, bidding: bidding) }
+      
+      context 'when all biddings`s proposals have refused status' do
+        before do
+          bidding.proposals << refused_proposal_1
+          bidding.proposals << refused_proposal_2
+        end
+
+        it { expect(bidding.fully_refused_proposals?).to be_truthy }
+      end
+
+      context 'when not all biddings`s proposals have refused status' do
+        before do
+          bidding.proposals << refused_proposal_1
+          bidding.proposals << refused_proposal_2
+          bidding.proposals << another_proposal
+        end
+
+        it { expect(bidding.fully_refused_proposals?).to be_falsey }
+      end
+    end
+
     describe '.fully_failed_lots?' do
       let!(:bidding) { create(:bidding) }
 
