@@ -10,6 +10,6 @@ pt-BR:
           waiting_signature: aguardando fornecedor
           signed: assinado
           completed: concluído
-          partial_execution: inexecução parcial
+          partial_execution: execução parcial
           total_inexecution: inexecução total
           refused: recusado
