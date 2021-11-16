@@ -18,6 +18,8 @@ module ContractsService
 
         next unless contract_lot_proposal
 
+        next unless accepted_lot?(contract_lot_proposal)
+
         other_sent_lot_proposals = other_sent_lot_proposals_from_same_lot_proposal(contract_lot_proposal)
 
         next unless other_sent_lot_proposals
@@ -41,6 +43,10 @@ module ContractsService
 
     def another_lot_proposal?(lot_proposals)
       lot_proposals.count > 0
+    end
+
+    def accepted_lot?(lot_proposal)
+      lot_proposal&.lot&.accepted?
     end
   end
 end
