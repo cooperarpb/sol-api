@@ -43,7 +43,7 @@ class Contract < ApplicationRecord
   # scopes
   scope :waiting_signature_and_old, -> do
     waiting_signature.
-      where("created_at < ?", 5.days.ago).
+      where("created_at < ?", 10.days.ago).
       where(supplier: nil).
       where.not(proposal: nil)
   end
