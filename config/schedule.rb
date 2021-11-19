@@ -24,10 +24,15 @@ if item_cron_syntax_frequency.present?
   end
 end
 
+
+# Devido à implementação do item 17 foi removida a execução do worker que verificava
+# se existiam contratos não assinados há mais de 5 dias. O script iria interferir na
+# verificação automática dos contratos expirados, uma vez que, o prazo máximo de
+# assinatura do contrato pelo fornecedor é de 5 dias.
 # Refuse old contracts
-every 30.minutes, roles: [:app] do
-  runner "Contract::SystemRefuseWorker.perform_async"
-end
+# every 30.minutes, roles: [:app] do
+#   runner "Contract::SystemRefuseWorker.perform_async"
+# end
 
 # TODO: Alterar schedule após testes em QA
 # every 5.minutes, roles: [:app] do
