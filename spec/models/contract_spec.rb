@@ -63,20 +63,20 @@ RSpec.describe Contract, type: :model do
     describe 'waiting_signature_and_old' do
       let(:supplier) { create(:supplier) }
       let!(:eligible_contract) do
-        create(:contract, status: :waiting_signature, created_at: 5.days.ago, supplier: nil)
+        create(:contract, status: :waiting_signature, created_at: 10.days.ago, supplier: nil)
       end
       let!(:not_eligible_contract_1) do
-        create(:contract, status: :signed, created_at: 5.days.ago, supplier: nil)
+        create(:contract, status: :signed, created_at: 10.days.ago, supplier: nil)
       end
       let!(:not_eligible_contract_2) do
         create(:contract, status: :waiting_signature, created_at: 4.days.ago, supplier: nil)
       end
       let!(:not_eligible_contract_3) do
-        create(:contract, status: :waiting_signature, created_at: 5.days.ago,
+        create(:contract, status: :waiting_signature, created_at: 10.days.ago,
                           supplier: supplier, supplier_signed_at: Date.current)
       end
       let!(:not_eligible_contract_4) do
-        create(:contract, status: :waiting_signature, created_at: 5.days.ago, supplier: nil)
+        create(:contract, status: :waiting_signature, created_at: 10.days.ago, supplier: nil)
       end
 
       before do
