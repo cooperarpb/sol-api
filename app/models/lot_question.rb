@@ -3,6 +3,8 @@
 class LotQuestion < ApplicationRecord
   belongs_to :lot
   belongs_to :supplier
+  
+  has_one :lot_answer
 
   validates :question,
             :lot,

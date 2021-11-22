@@ -14,6 +14,7 @@ RSpec.describe LotQuestion, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to :lot }
     it { is_expected.to belong_to :supplier }
+    it { is_expected.to have_one :lot_answer }
   end
 
   describe 'validations' do
