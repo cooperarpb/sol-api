@@ -10,4 +10,6 @@ class LotQuestion < ApplicationRecord
             :lot,
             :supplier,
             presence: true
+
+  delegate :answer, to: :lot_answer, allow_nil: true
 end

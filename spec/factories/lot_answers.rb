@@ -2,6 +2,6 @@ FactoryBot.define do
   factory :lot_answer do
     lot_question
     user
-    answer "MyText"
+    answer "My Answer"
   end
 end

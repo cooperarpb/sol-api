@@ -22,4 +22,8 @@ RSpec.describe LotQuestion, type: :model do
     it { is_expected.to validate_presence_of(:lot) }
     it { is_expected.to validate_presence_of(:supplier) }
   end
+
+  describe 'delegations' do
+    it { is_expected.to delegate_method(:answer).to(:lot_answer) }
+  end
 end
