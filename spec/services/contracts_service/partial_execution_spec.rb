@@ -26,7 +26,7 @@ RSpec.describe ContractsService::PartialExecution, type: :service do
 
   let(:permitted_params) do
     [
-      :id, returned_lot_group_items_attributes: [
+      :id, :inexecution_reason, returned_lot_group_items_attributes: [
         :id, :lot_group_item_id, :quantity, :_destroy
       ]
     ]
@@ -35,6 +35,7 @@ RSpec.describe ContractsService::PartialExecution, type: :service do
   let(:params) do
     {
       contract: {
+        inexecution_reason: 'Motivo',
         returned_lot_group_items_attributes: [
           {
             '_destroy': false.to_s, quantity: returned_lot_group_item.quantity.to_s,
@@ -151,6 +152,22 @@ RSpec.describe ContractsService::PartialExecution, type: :service do
         before { contract.waiting_signature! }
 
         it { is_expected.to be_falsy }
+      end
+
+      context 'when contract_params is present' do
+        include_examples 'services/concerns/init_contract'
+    
+        subject(:service_call) { described_class.call(contract: contract, contract_params: contract_params) }
+    
+        before do
+          allow(Bidding::Minute::AddendumInexecutionReasonPdfGenerateWorker).to receive(:perform_async).with(contract.id)
+          service_call
+
+          contract.reload
+        end
+    
+        it { expect(contract.inexecution_reason).to eq('Motivo') }
+        it { expect(Bidding::Minute::AddendumInexecutionReasonPdfGenerateWorker).to have_received(:perform_async).with(contract.id) }
       end
     end
   end

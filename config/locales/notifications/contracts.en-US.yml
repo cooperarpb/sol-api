@@ -13,10 +13,22 @@
       sign_admin_user:
         title: Contract signed by vendor.
         body: Contract <strong>%s</strong> of procurement process <strong>%s</strong> was signed by the vendor <strong>%s</strong>
-      
+
+      supplier_signature_close_to_deadline:
+        title: Deadline is close!
+        body: Deadline to sign the contract number <strong>%s</strong> ends <strong>tomorrow</strong>.
+
+      supplier_signature_last_day_of_deadline:
+        title: Deadline ends today!
+        body: Deadline to sign the contract number <strong>%s</strong> ends <strong>today</strong>.
+
       total_inexecution:
         title: Contract with complete nonperformance.
         body: Contract <strong>%s</strong> of procurement process <strong>%s</strong> was marked as complete nonperformance.
+
+      unsigned_by_supplier:
+        title: Contract not signed by vendors.
+        body: Contract <strong>%s</strong> for procurement process <strong>%s</strong> has not been signed by the vendors until the signing deadline.
 
       completed:
         title: Contract completed.
@@ -28,4 +40,4 @@
 
       created:
         title: Contract created.
-        body: New contract <strong>%s</strong> generated. Click here to learn more.
+        body: You have got <strong>%s days</strong> to sign the contract <strong>%s</strong>. Click here to learn more.

@@ -66,6 +66,8 @@ Rails.application.routes.draw do
   namespace :coop, path: 'cooperative', as: 'cooperative' do
     concerns :notifiable
 
+    get :headquarters, to: 'biddings#headquarters'
+
     resource :device_tokens, only: :create
     resource :dashboard, only: :show
     resource :map, only: :show
@@ -186,7 +188,6 @@ Rails.application.routes.draw do
     end
 
     resources :biddings, only: [] do
-      resource :fail, module: 'biddings', only: [:update]
       resource :ongoing, module: 'biddings', only: [:update]
       resource :approve, module: 'biddings', only: [:update]
       resource :reprove, module: 'biddings', only: [:update]

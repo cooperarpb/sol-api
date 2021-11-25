@@ -1,0 +1,15 @@
+pt-BR:
+  activerecord:
+    models:
+      contract:
+        one: Contrat
+        other: Contrats
+    attributes:
+      contract:
+        statuses:
+          waiting_signature: en attente de toutes les signatures
+          signed: Signé
+          completed: Achevé
+          partial_execution: Réalisé partiellement
+          total_inexecution: Non réalisation totale
+          refused: Rejeté

@@ -20,5 +20,11 @@ module Administrator
     def find_biddings
       Bidding.accessible_by(current_ability)
     end
+
+    def default_sort_scope
+      return searched_resources if params[:status].blank?
+
+      resources.where(status: params[:status])
+    end
   end
 end

@@ -41,14 +41,14 @@ RSpec.describe Notifications::Contracts::Created, type: [:service, :notification
           let(:extra_args) { { bidding_id: bidding.id }.as_json }
 
           it { expect(notification.extra_args).to eq extra_args }
-          it { expect(notification.body_args).to eq [contract.title] }
+          it { expect(notification.body_args).to eq [Contract::SUPPLIER_SIGNATURE_DEADLINE, contract.title] }
         end
 
         describe 'I18n' do
           let(:title_msg) { 'Contrato criado.' }
           let(:body_msg) do
-            "Novo contrato <strong>#{contract.title}</strong> gerado, "\
-            "clique aqui para mais detalhes."
+            "Prazo de até <strong>#{Contract::SUPPLIER_SIGNATURE_DEADLINE} dias</strong> para assinatura do contrato "\
+            "<strong>#{contract.title}</strong>. Clique aqui para mais detalhes."
           end
           let(:key) { "notifications.#{notification.action}" }
           let(:title) { I18n.t("#{key}.title") % notification.title_args }
@@ -71,14 +71,14 @@ RSpec.describe Notifications::Contracts::Created, type: [:service, :notification
           let(:extra_args) { { bidding_id: bidding.id }.as_json }
 
           it { expect(notification.extra_args).to eq extra_args }
-          it { expect(notification.body_args).to eq [contract.title] }
+          it { expect(notification.body_args).to eq [Contract::SUPPLIER_SIGNATURE_DEADLINE, contract.title] }
         end
 
         describe 'I18n' do
           let(:title_msg) { 'Contrato criado.' }
           let(:body_msg) do
-            "Novo contrato <strong>#{contract.title}</strong> gerado, "\
-            "clique aqui para mais detalhes."
+            "Prazo de até <strong>#{Contract::SUPPLIER_SIGNATURE_DEADLINE} dias</strong> para assinatura do contrato "\
+            "<strong>#{contract.title}</strong>. Clique aqui para mais detalhes."
           end
           let(:key) { "notifications.#{notification.action}" }
           let(:title) { I18n.t("#{key}.title") % notification.title_args }

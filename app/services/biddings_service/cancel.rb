@@ -37,8 +37,12 @@ module BiddingsService
       raise BlockchainError unless response.success?
     end
 
+    def send_notification?
+      ActiveModel::Type::Boolean.new.cast(send_notification)
+    end
+
     def notify_approved_cancellation_request
-      Notifications::Biddings::CancellationRequests::Approved.call(bidding)
+      Notifications::Biddings::CancellationRequests::Approved.call(bidding) if send_notification?
     end
   end
 end
