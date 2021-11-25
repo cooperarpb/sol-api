@@ -15,6 +15,7 @@ module ContractsService
     def change_status_fail_and_retry
       execute_or_rollback do
         change_contract_status!
+        update_contract!
         fail_and_retry_proposal!
         update_reopen_reason_contract!
         update_contract_blockchain!
@@ -65,5 +66,8 @@ module ContractsService
 
     # override for notification
     def notify; end
+
+    # Atualiza o contrato com os parâmetros definidos em contract_params
+    def update_contract!; end
   end
 end

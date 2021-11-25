@@ -13,10 +13,22 @@ pt-BR:
       sign_admin_user:
         title: Contrato assinado pelo fornecedor.
         body: O contrato <strong>%s</strong> da licitação <strong>%s</strong> foi assinado pelo fornecedor <strong>%s</strong>
-      
+
+      supplier_signature_close_to_deadline:
+        title: Prazo a encerrar!
+        body: O prazo para assinatura do contrato <strong>%s</strong> encerra <strong>amanhã</strong>.
+
+      supplier_signature_last_day_of_deadline:
+        title: Prazo encerra hoje!
+        body: O prazo para assinatura do contrato <strong>%s</strong> encerra <strong>hoje</strong>.
+
       total_inexecution:
         title: Contrato com inexecução total.
         body: O contrato <strong>%s</strong> da licitação <strong>%s</strong> foi marcado com inexecução total.
+
+      unsigned_by_supplier:
+        title: Contrato não assinado pelos fornecedores.
+        body: O contrato <strong>%s</strong> da licitação <strong>%s</strong> não foi assinado pelos fornecedores até o prazo de assinatura.
 
       completed:
         title: Contrato concluído.
@@ -28,4 +40,4 @@ pt-BR:
 
       created:
         title: Contrato criado.
-        body: Novo contrato <strong>%s</strong> gerado, clique aqui para mais detalhes.
+        body: Prazo de até <strong>%s dias</strong> para assinatura do contrato <strong>%s</strong>. Clique aqui para mais detalhes.

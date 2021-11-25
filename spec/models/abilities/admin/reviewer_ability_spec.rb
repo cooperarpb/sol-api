@@ -41,7 +41,7 @@ RSpec.describe Abilities::Admin::ReviewerAbility, type: :model do
       {
         manage: %w[Covenant Group Cooperative Item GroupItem Contract Bidding Proposal Lot LotProposal Provider Supplier Unit User Notification Report],
         mark_as_read: ["Notification"],
-        read: %w[Bidding Admin],
+        read: %w[Admin],
         profile: ["Admin"],
         update: ["Admin"]
       }

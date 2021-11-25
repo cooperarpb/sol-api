@@ -299,4 +299,49 @@ RSpec.describe Coop::BiddingsController, type: :controller do
     end
   end
 
+  describe '#headquarters' do
+    let(:params) { {} }
+
+    subject!(:headquarters) { get :headquarters, params: params, xhr: true }
+
+    it_behaves_like 'an user authorization to', 'read'
+
+    describe 'response' do
+      context 'when headquarters address has street name' do
+        let(:expected_response) do
+          "#{user.cooperative.address.address} #{user.cooperative.address.number}"
+        end
+
+        it { expect(user.cooperative.address['address']).not_to be_empty }
+        it { expect(response.body).not_to be_empty }
+        it { expect(response.body).to eq(expected_response) }
+
+        describe 'http_status' do
+          it { expect(response).to have_http_status :ok }
+        end
+
+        describe 'JSON' do
+          it { expect(response.header['Content-Type']).to include('application/json') }
+          it { expect(response.body).to be_a(String) }
+        end
+      end
+
+      context 'when headquarters address has not street name' do
+        let(:cooperative) { create(:cooperative, address: address) }
+        let(:address) { create(:address, :without_street_name) }
+
+        it { expect(user.cooperative.address['address']).to eq('-') }
+        it { expect(response.body).to be_empty }
+
+        describe 'http_status' do
+          it { expect(response).to have_http_status :ok }
+        end
+
+        describe 'JSON' do
+          it { expect(response.header['Content-Type']).to include('application/json') }
+          it { expect(response.body).to be_a(String) }
+        end
+      end
+    end
+  end
 end

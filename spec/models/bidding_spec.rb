@@ -35,6 +35,7 @@ RSpec.describe Bidding, type: :model do
     it { is_expected.to belong_to :covenant }
     it { is_expected.to belong_to :classification }
     it { is_expected.to belong_to(:merged_minute_document).class_name(Document).optional }
+    it { is_expected.to belong_to(:merged_inexecution_reason_document).class_name(InexecutionReasonDocument).optional }
     it { is_expected.to belong_to(:edict_document).class_name(Document).optional }
     it { is_expected.to belong_to(:spreadsheet_report).class_name(SpreadsheetDocument).optional }
     it { is_expected.to belong_to(:reopen_reason_contract).class_name(Contract).optional }
@@ -43,6 +44,7 @@ RSpec.describe Bidding, type: :model do
     it { is_expected.to have_one(:admin).through(:covenant) }
 
     it { is_expected.to have_and_belong_to_many(:minute_documents).class_name(Document) }
+    it { is_expected.to have_and_belong_to_many(:inexecution_reason_documents).class_name(InexecutionReasonDocument) }
 
     it { is_expected.to have_many(:lots).dependent(:destroy) }
     it { is_expected.to have_many(:lot_group_items).through(:lots) }
@@ -658,6 +660,32 @@ RSpec.describe Bidding, type: :model do
         end
 
         it { expect(bidding.proposals_not_draft_or_abandoned.size).to eq 3 }
+      end
+    end
+
+    fdescribe '.fully_refused_proposals?' do
+      let!(:bidding)           { create(:bidding) }
+      let(:refused_proposal_1) { create(:proposal, bidding: bidding, status: :refused) }
+      let(:refused_proposal_2) { create(:proposal, bidding: bidding, status: :refused) }
+      let(:another_proposal)   { create(:proposal, bidding: bidding) }
+      
+      context 'when all biddings`s proposals have refused status' do
+        before do
+          bidding.proposals << refused_proposal_1
+          bidding.proposals << refused_proposal_2
+        end
+
+        it { expect(bidding.fully_refused_proposals?).to be_truthy }
+      end
+
+      context 'when not all biddings`s proposals have refused status' do
+        before do
+          bidding.proposals << refused_proposal_1
+          bidding.proposals << refused_proposal_2
+          bidding.proposals << another_proposal
+        end
+
+        it { expect(bidding.fully_refused_proposals?).to be_falsey }
       end
     end
 

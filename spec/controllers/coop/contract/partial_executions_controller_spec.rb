@@ -28,7 +28,7 @@ RSpec.describe Coop::Contract::PartialExecutionsController, type: :controller do
 
   let(:permitted_params) do
     [
-      :id, returned_lot_group_items_attributes: [
+      :id, :inexecution_reason, returned_lot_group_items_attributes: [
         :id, :lot_group_item_id, :quantity
       ]
     ]

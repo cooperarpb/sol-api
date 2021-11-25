@@ -1,8 +1,8 @@
 RSpec.shared_examples 'services/concerns/clone' do |status|
   let!(:contract_status) { status[:contract_status] }
-  let(:service) { described_class.new(contract: contract) }
+  let(:service) { described_class.new(contract: contract, contract_params: '') }
 
-  include_examples 'services/concerns/init_contract'
+  include_examples 'services/concerns/init_contract', contract_status: status&.dig(:init_contract_status)
 
   let(:api_response) { double('api_response', success?: true) }
 
@@ -10,7 +10,7 @@ RSpec.shared_examples 'services/concerns/clone' do |status|
     allow(Blockchain::Contract::Update).to receive(:call!) { api_response }
   end
 
-  subject(:service_call) { described_class.call(contract: contract) }
+  subject(:service_call) { described_class.call(contract: contract, contract_params: '') }
 
   describe '#initialize' do
     it { expect(service.contract).to eq contract }
@@ -26,6 +26,8 @@ RSpec.shared_examples 'services/concerns/clone' do |status|
       let!(:api_response) { double('api_response', success?: true) }
 
       context 'when global' do
+        let(:send_notification) { status&.dig(:send_global_notification) }
+
         before do
           allow(BiddingsService::Cancel).to receive(:call!) { true }
           allow(BiddingsService::Clone).to receive(:call!) { true }
@@ -34,7 +36,7 @@ RSpec.shared_examples 'services/concerns/clone' do |status|
         end
 
         it { expect(contract.send("#{contract_status}?")).to be_truthy }
-        it { expect(BiddingsService::Cancel).to have_received(:call!).with(bidding: bidding) }
+        it { expect(BiddingsService::Cancel).to have_received(:call!).with(bidding: bidding, send_notification: send_notification) }
         it { expect(BiddingsService::Clone).to have_received(:call!).with(bidding: bidding) }
         it { expect(worker.jobs.size).to eq(1) }
         it { expect(report_worker.jobs.size).to eq(1) }
