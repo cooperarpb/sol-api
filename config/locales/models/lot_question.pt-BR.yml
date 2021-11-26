@@ -1,0 +1,15 @@
+pt-BR:
+  activerecord:
+    models:
+      lot_question:
+        one: Esclarecimento
+        other: Esclarecimentos
+    attributes:
+      lot_question:
+        question: Pergunta
+    errors:
+      models:
+        lot_question:
+          attributes:
+            question:
+              missing: Pergunta não pode ficar em branco

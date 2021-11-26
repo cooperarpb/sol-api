@@ -26,4 +26,37 @@ RSpec.describe LotQuestion, type: :model do
   describe 'delegations' do
     it { is_expected.to delegate_method(:answer).to(:lot_answer) }
   end
+
+  describe 'sortable' do
+    it { expect(described_class.default_sort_column).to eq 'lot_questions.created_at' }
+    it { expect(described_class.default_sort_direction).to eq :desc }
+  end
+
+  describe 'methods' do
+    describe 'by_supplier' do
+      let(:supplier) { create(:supplier) }
+      let(:supplier_lot_question) { create(:lot_question, supplier: supplier) }
+      let(:another_lot_question) { create(:lot_question) }
+
+      before do
+        supplier_lot_question
+        another_lot_question
+      end
+
+      it { expect(LotQuestion.by_supplier(supplier)).to match_array([supplier_lot_question]) }
+    end
+
+    describe 'by_lot' do
+      let(:lot) { create(:lot) }
+      let(:lot_lot_question) { create(:lot_question, lot: lot) }
+      let(:another_lot_question) { create(:lot_question) }
+
+      before do
+        lot_lot_question
+        another_lot_question
+      end
+
+      it { expect(LotQuestion.by_lot(lot)).to match_array([lot_lot_question]) }
+    end
+  end
 end

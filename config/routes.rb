@@ -52,6 +52,7 @@ Rails.application.routes.draw do
       resources :lots, module: 'biddings', only: [:index, :show] do
         resources :lot_proposals, module: 'lots', only: [:index, :show, :create, :update, :destroy]
         resources :lot_proposal_imports, module: 'lots', only: [:show, :create]
+        resources :lot_questions, module: 'lots', only: [:index, :create]
         get :download
       end
 
