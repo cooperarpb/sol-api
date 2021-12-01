@@ -1,0 +1,5 @@
+pt-BR:
+  notifications:
+    common_messages:
+      body_error: >
+        Une erreur s'est produite lors de l'affichage du message de notification.
