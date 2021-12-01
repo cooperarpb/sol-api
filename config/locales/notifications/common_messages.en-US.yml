@@ -1,0 +1,6 @@
+pt-BR:
+  notifications:
+    common_messages:
+      body_error: >
+        There was an error displaying the notification message.
+
