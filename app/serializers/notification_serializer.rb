@@ -11,6 +11,8 @@ class NotificationSerializer < ActiveModel::Serializer
   end
 
   def body
+    return I18n.t('notifications.common_messages.body_error') unless object.body_args
+
     I18n.t("#{key}.body") % object.body_args
   end
 
