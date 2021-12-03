@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_22_141815) do
+ActiveRecord::Schema.define(version: 2021_11_22_131352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -295,16 +295,6 @@ ActiveRecord::Schema.define(version: 2021_11_22_141815) do
     t.index ["representable_type", "representable_id"], name: "index_legal_reps_on_representable_type_and_representable_id"
   end
 
-  create_table "lot_answers", force: :cascade do |t|
-    t.bigint "lot_question_id"
-    t.bigint "user_id"
-    t.text "answer"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["lot_question_id"], name: "index_lot_answers_on_lot_question_id"
-    t.index ["user_id"], name: "index_lot_answers_on_user_id"
-  end
-
   create_table "lot_group_item_lot_proposals", force: :cascade do |t|
     t.bigint "lot_group_item_id"
     t.bigint "lot_proposal_id"
@@ -359,11 +349,14 @@ ActiveRecord::Schema.define(version: 2021_11_22_141815) do
   create_table "lot_questions", force: :cascade do |t|
     t.bigint "lot_id"
     t.bigint "supplier_id"
+    t.bigint "user_id"
     t.text "question"
+    t.text "answer"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["lot_id"], name: "index_lot_questions_on_lot_id"
     t.index ["supplier_id"], name: "index_lot_questions_on_supplier_id"
+    t.index ["user_id"], name: "index_lot_questions_on_user_id"
   end
 
   create_table "lots", force: :cascade do |t|
@@ -624,8 +617,6 @@ ActiveRecord::Schema.define(version: 2021_11_22_141815) do
   add_foreign_key "invites", "biddings"
   add_foreign_key "invites", "providers"
   add_foreign_key "items", "classifications"
-  add_foreign_key "lot_answers", "lot_questions"
-  add_foreign_key "lot_answers", "users"
   add_foreign_key "lot_group_item_lot_proposals", "lot_group_items"
   add_foreign_key "lot_group_item_lot_proposals", "lot_proposals"
   add_foreign_key "lot_group_items", "group_items"
@@ -637,6 +628,7 @@ ActiveRecord::Schema.define(version: 2021_11_22_141815) do
   add_foreign_key "lot_proposals", "suppliers"
   add_foreign_key "lot_questions", "lots"
   add_foreign_key "lot_questions", "suppliers"
+  add_foreign_key "lot_questions", "users"
   add_foreign_key "lots", "biddings"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"

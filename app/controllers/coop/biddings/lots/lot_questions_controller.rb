@@ -4,12 +4,10 @@ module Coop
 
     load_and_authorize_resource except: [:update]
 
-    before_action :set_lot_answer_user_id, only: :update
+    before_action :set_lot_question_user_id, only: :update
 
     PERMITTED_PARAMS = [
-      :id, lot_answer_attributes: [
-        :id, :answer
-      ]
+      :id, :answer
     ].freeze
 
     expose :bidding
@@ -39,8 +37,8 @@ module Coop
       params.require(:lot_question).permit(*PERMITTED_PARAMS)
     end
 
-    def set_lot_answer_user_id
-      resource.build_lot_answer.user = current_user
+    def set_lot_question_user_id
+      resource.user = current_user
     end
   end
 end

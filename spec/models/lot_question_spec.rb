@@ -9,22 +9,19 @@ RSpec.describe LotQuestion, type: :model do
 
   describe 'columns' do
     it { is_expected.to have_db_column(:question).of_type(:text) }
+    it { is_expected.to have_db_column(:answer).of_type(:text) }
   end
 
   describe 'associations' do
     it { is_expected.to belong_to :lot }
     it { is_expected.to belong_to :supplier }
-    it { is_expected.to have_one :lot_answer }
+    it { is_expected.to belong_to(:user).optional }
   end
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:question) }
     it { is_expected.to validate_presence_of(:lot) }
     it { is_expected.to validate_presence_of(:supplier) }
-  end
-
-  describe 'delegations' do
-    it { is_expected.to delegate_method(:answer).to(:lot_answer) }
   end
 
   describe 'sortable' do

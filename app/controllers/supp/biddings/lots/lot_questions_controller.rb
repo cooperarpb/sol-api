@@ -7,7 +7,7 @@ module Supp
     before_action :set_lot_question_supplier_id, only: :create
 
     PERMITTED_PARAMS = [
-      :id, :question, :lot_id, :supplier_id
+      :id, :question, :lot_id
     ].freeze
 
     expose :bidding
