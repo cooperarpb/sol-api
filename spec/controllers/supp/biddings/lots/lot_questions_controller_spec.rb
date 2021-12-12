@@ -86,7 +86,7 @@ RSpec.describe Supp::Biddings::Lots::LotQuestionsController, type: :controller d
 
     it_behaves_like 'an user authorization to', 'write'
 
-    describe 'exposes' do
+    context 'when valid params it saves lot_question on database' do
       it { expect{ post_create }.to change{ LotQuestion.count }.by(1) }
     end
 
@@ -95,7 +95,7 @@ RSpec.describe Supp::Biddings::Lots::LotQuestionsController, type: :controller d
 
       context 'when created' do
         before do
-          allow(controller.lot_question).to receive(:save) { true }
+          allow(LotQuestionsService::Sent).to receive(:call) { true }
           post_create
         end
 
@@ -105,7 +105,7 @@ RSpec.describe Supp::Biddings::Lots::LotQuestionsController, type: :controller d
 
       context 'when not created' do
         before do
-          allow(controller.lot_question).to receive(:save) { false }
+          allow(LotQuestionsService::Sent).to receive(:call) { false }
           allow(controller.lot_question).to receive(:errors_as_json) { { error: 'value' } }
 
           post_create

@@ -17,6 +17,11 @@ module Supp
 
     private
 
+    # overrided
+    def created?
+      LotQuestionsService::Sent.call(lot_question: resource)
+    end
+
     def resource
       lot_question
     end

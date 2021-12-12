@@ -17,6 +17,11 @@ module Coop
 
     private
 
+    # overrided
+    def updated?
+      LotQuestionsService::Answered.call(lot_question: resource, lot_question_attributes: lot_question_params)
+    end
+
     def resource
       lot_question
     end

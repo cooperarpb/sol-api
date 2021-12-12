@@ -93,7 +93,7 @@ RSpec.describe Coop::Biddings::Lots::LotQuestionsController, type: :controller d
 
       context 'when updated' do
         before do
-          allow(controller.lot_question).to receive(:update) { true }
+          allow(LotQuestionsService::Answered).to receive(:call) { true }
           patch_update
         end
 
@@ -103,7 +103,7 @@ RSpec.describe Coop::Biddings::Lots::LotQuestionsController, type: :controller d
 
       context 'when not created' do
         before do
-          allow(controller.lot_question).to receive(:update) { false }
+          allow(LotQuestionsService::Answered).to receive(:call) { false }
           allow(controller.lot_question).to receive(:errors_as_json) { { error: 'value' } }
 
           patch_update
