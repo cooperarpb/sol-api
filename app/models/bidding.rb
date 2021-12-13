@@ -155,7 +155,7 @@ class Bidding < ApplicationRecord
     proposals.
       joins(:lot_proposals).
       where(
-        status: %i[sent accepted refused],
+        status: %i[sent accepted],
         lot_proposals: { lot_id: lot_ids }
       )
   end
