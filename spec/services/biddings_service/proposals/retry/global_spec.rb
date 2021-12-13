@@ -36,7 +36,7 @@ RSpec.describe BiddingsService::Proposals::Retry::Global, type: :service do
       it { expect(proposal_2.sent?).to be_truthy }
       it { expect(lot_2.triage?).to be_truthy }
       it { expect(proposal_3.triage?).to be_truthy }
-      it { expect(proposal_4.sent?).to be_truthy }
+      it { expect(proposal_4.sent?).to be_falsy }
     end
 
     context 'when return error' do
