@@ -76,6 +76,31 @@ RSpec.describe Coop::Biddings::Lots::LotQuestionsController, type: :controller d
 
   end
 
+  describe '#show' do
+    subject(:get_show) { get :show, params: params, xhr: true }
+    
+    let(:params) { { bidding_id: lot.bidding.id, lot_id: lot.id, id: lot_question.id } }
+
+    before { get_show }
+
+    it_behaves_like 'an user authorization to', 'read'
+
+    describe 'http_status' do
+      it { expect(response).to have_http_status :ok }
+    end
+
+    describe 'exposes' do
+      it { expect(controller.lot_question).to eq lot_question }
+    end
+
+    describe 'JSON' do
+      let(:json) { JSON.parse(response.body) }
+      let(:expected_json) { format_json(serializer, lot_question) }
+
+      it { expect(json).to eq expected_json }
+    end
+  end
+
   describe '#update' do
     let(:lot_question) { create(:lot_question, lot: lot) }
     let(:params) { { id: lot_question.id, bidding_id: bidding.id, lot_id: lot.id, lot_question: lot_question.attributes } }

@@ -101,7 +101,7 @@ Rails.application.routes.draw do
       resource :refinish, module: 'biddings', only: [:update]
       resources :lots, module: 'biddings' do
         resources :lot_proposals, module: 'lots', only: [:index, :show]
-        resources :lot_questions, module: 'lots', only: [:index, :update]
+        resources :lot_questions, module: 'lots', only: [:index, :show, :update]
       end
 
       resource :waiting, module: 'biddings', only: [:update]
