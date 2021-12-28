@@ -9,7 +9,7 @@ module Supp
     # licitação. Utilizado para a exibição do botão de novo esclarecimento que deve ficar visível
     # ao fornecedor caso a condição seja verdadeira.
     def show_new_button_question
-      Date.today <= object.closing_date - 2.days
+      object.ongoing? && Date.today <= object.closing_date - 2.days
     end
   end
 end
