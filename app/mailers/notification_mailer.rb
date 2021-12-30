@@ -1,8 +1,6 @@
 # Classe reponsável por enviar e-mail com o mesmo conteúdo das notificações
 class NotificationMailer < ApplicationMailer
 
-  default from: "SOL <nao-responda@car.ba.gov.br>"
-
   # Envia e-mail com o mesmo título e mensagem da notificação informada para o destinatário informado.
   # 
   # @param notification [Model]
