@@ -167,6 +167,7 @@ Rails.application.routes.draw do
 
         resources :lots, only: [:index], module: 'biddings' do
           resources :lot_proposals, module: 'lots', only: [:index]
+          resources :lot_questions, module: 'lots', only: [:index]
         end
       end
     end
