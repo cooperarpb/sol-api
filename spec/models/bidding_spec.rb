@@ -663,7 +663,7 @@ RSpec.describe Bidding, type: :model do
       end
     end
 
-    fdescribe '.fully_refused_proposals?' do
+    describe '.fully_refused_proposals?' do
       let!(:bidding)           { create(:bidding) }
       let(:refused_proposal_1) { create(:proposal, bidding: bidding, status: :refused) }
       let(:refused_proposal_2) { create(:proposal, bidding: bidding, status: :refused) }

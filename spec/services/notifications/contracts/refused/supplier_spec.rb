@@ -94,5 +94,7 @@ RSpec.describe Notifications::Contracts::Refused::Supplier, type: [:service, :no
     end
 
     it_should_behave_like 'services/concerns/notifications/fcm', 2
+
+    it_should_behave_like 'services/concerns/notifications/notification_mailer', 2
   end
 end
