@@ -13,7 +13,7 @@ RSpec.describe Abilities::Admin::GeneralAbility, type: :model do
       it { is_expected.to be_able_to(:read, model) }
     end
 
-    [ Contract, Bidding, Proposal, Lot, LotProposal, Admin, Provider,
+    [ Contract, Bidding, Proposal, Lot, LotProposal, LotQuestion, Admin, Provider,
       Supplier, Unit, User, Notification, Report].each do |model|
       it { is_expected.to be_able_to(:manage, model) }
     end
@@ -21,7 +21,7 @@ RSpec.describe Abilities::Admin::GeneralAbility, type: :model do
 
   context 'when there are not integrations' do
     [ Covenant, Group, Cooperative, Item, GroupItem, Contract, Bidding,
-      Proposal, Lot, LotProposal, Admin, Provider, Supplier, Unit, User,
+      Proposal, Lot, LotProposal, LotQuestion, Admin, Provider, Supplier, Unit, User,
       Notification, Report ].each do |model|
       it { is_expected.to be_able_to(:manage, model) }
     end
@@ -32,7 +32,7 @@ RSpec.describe Abilities::Admin::GeneralAbility, type: :model do
       {
         manage: [
           "Covenant", "Group", "Cooperative", "Item", "GroupItem",
-          "Contract", "Bidding", "Proposal", "Lot", "LotProposal", "Admin",
+          "Contract", "Bidding", "Proposal", "Lot", "LotProposal", "LotQuestion", "Admin",
           "Provider", "Supplier", "Unit", "User", "Notification", "Report"
         ]
       }

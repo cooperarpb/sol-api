@@ -26,6 +26,7 @@ module Abilities::Admin
       can :manage, Proposal, bidding_rule
       can :manage, Lot, bidding_rule
       can :manage, LotProposal, lot_rule
+      can :manage, LotQuestion, lot_rule
       can :read, Admin
       can [:update, :profile], Admin, basic_rule
       can :manage, Provider, bidding_rule
