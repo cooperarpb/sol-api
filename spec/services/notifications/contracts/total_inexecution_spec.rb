@@ -126,5 +126,7 @@ RSpec.describe Notifications::Contracts::TotalInexecution, type: [:service, :not
     end
 
     it_should_behave_like 'services/concerns/notifications/fcm', 3
+
+    it_should_behave_like 'services/concerns/notifications/notification_mailer', 3
   end
 end

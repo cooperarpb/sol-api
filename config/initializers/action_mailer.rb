@@ -14,7 +14,7 @@ Rails.application.config.before_initialize do
   ActionMailer::Base.default_options = action_mailer_config.default_options
 
   # specifies the queue name for mailers. By default this is mailers.
-  # action_mailer_config.deliver_later_queue_name = :mailers
+  action_mailer_config.deliver_later_queue_name = :mailers
 
   # url options
   # these are set in `initializers/routes.rb`, using Rails.application.routes.default_url_options

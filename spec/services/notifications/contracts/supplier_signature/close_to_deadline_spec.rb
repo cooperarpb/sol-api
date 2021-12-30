@@ -66,5 +66,7 @@ RSpec.describe Notifications::Contracts::SupplierSignature::CloseToDeadline, typ
     end
 
     it_should_behave_like 'services/concerns/notifications/fcm', 1
+
+    it_should_behave_like 'services/concerns/notifications/notification_mailer', 1
   end
 end
