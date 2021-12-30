@@ -27,6 +27,7 @@ RSpec.describe Supplier, type: :model do
     it { is_expected.to have_many(:access_grants).dependent(:destroy) }
     it { is_expected.to have_many(:device_tokens).dependent(:destroy) }
     it { is_expected.to have_many(:lot_proposals).dependent(:restrict_with_error) }
+    it { is_expected.to have_many(:lot_questions).dependent(:restrict_with_error) }
   end
 
   context 'validations' do

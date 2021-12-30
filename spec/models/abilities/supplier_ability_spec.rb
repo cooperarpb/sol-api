@@ -42,6 +42,9 @@ RSpec.describe Abilities::SupplierAbility, type: :model do
       it { is_expected.to be_able_to(:destroy, model) }
     end
 
+    it { is_expected.to be_able_to(:index, LotQuestion) }
+    it { is_expected.to be_able_to(:create, LotQuestion) }
+
     it { is_expected.to be_able_to(:finish, Proposal) }
     it { is_expected.to be_able_to(:mark_as_read, Notification) }
   end

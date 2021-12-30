@@ -35,6 +35,7 @@ class Supplier < ApplicationRecord
   has_many :device_tokens, as: :owner, dependent: :destroy
 
   has_many :lot_proposals, dependent: :restrict_with_error
+  has_many :lot_questions, dependent: :restrict_with_error
 
   validates :name,
             :cpf,

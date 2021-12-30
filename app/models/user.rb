@@ -35,6 +35,7 @@ class User < ApplicationRecord
     dependent: :destroy
 
   has_many :device_tokens, as: :owner, dependent: :destroy
+  has_many :lot_answers, dependent: :restrict_with_error
 
   validates :name,
             :cpf,
