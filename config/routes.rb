@@ -210,6 +210,9 @@ Rails.application.routes.draw do
   namespace :search do
     resources :admins, only: :index
     resources :cities, only: :index
+    resources :states, only: :index do
+      resources :cities, module: 'states', only: :index
+    end
     resources :cooperatives, only: :index
     resources :classifications, only: :index
     resources :items, only: :index
