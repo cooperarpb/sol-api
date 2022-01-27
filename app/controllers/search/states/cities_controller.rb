@@ -6,7 +6,7 @@ module Search
       private
   
       def base_resources
-        State.find(params[:state_id]).cities
+        State.find(params[:state_id]).cities.order('name ASC')
       end
     end
   end

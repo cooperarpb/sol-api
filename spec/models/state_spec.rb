@@ -18,5 +18,17 @@ RSpec.describe State, type: :model do
       it { is_expected.to validate_uniqueness_of(:uf).case_insensitive }
       it { is_expected.to validate_uniqueness_of(:code) }
     end
+
+    describe 'sortable' do
+      it { expect(described_class.default_sort_column).to eq 'states.name' }
+    end
+
+    describe 'methods' do
+      describe 'text' do
+        let(:state) { create(:state) }
+  
+        it { expect(state.text).to eq state.name}
+      end
+    end
   end
 end
