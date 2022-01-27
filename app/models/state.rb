@@ -18,6 +18,6 @@ class State < ApplicationRecord
   end
   
   def text
-    "#{name} / #{uf}"
+    name
   end
 end
