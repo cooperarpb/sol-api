@@ -7,7 +7,7 @@ RSpec.describe Abilities::UserAbility, type: :model do
   subject { described_class.new(user) }
 
   [ Provider, Additive, Bidding, Covenant, Contract, LotGroupItem, Proposal,
-    LotProposal, Lot, Invite, Group, GroupItem, Notification, User ].each do |model|
+    LotProposal, Lot, Invite, Group, GroupItem, Notification, User, LotQuestion ].each do |model|
     it { is_expected.to be_able_to(:manage, model) }
   end
 

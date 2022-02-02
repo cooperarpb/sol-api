@@ -18,6 +18,7 @@ module Abilities
       can :manage, Notification, notification_rule
       can :manage, User, basic_rule
       can :mark_as_read, Notification
+      can :manage, LotQuestion
     end
 
     private
