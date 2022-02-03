@@ -10,11 +10,13 @@ RSpec.describe Coop::ContractSerializer, type: :serializer do
     let(:bidding) { object.bidding }
     let(:proposals) { bidding.proposals }
     let(:proposals_count) { proposals.not_draft_or_abandoned.count }
+    let(:lot_group_item_count) { object.lot_group_items.count }
 
     subject { format_json(described_class, object) }
 
     describe 'attributes' do
       it { is_expected.to include 'proposals_count' => proposals_count }
+      it { is_expected.to include 'lot_group_item_count' => lot_group_item_count }
     end
   end
 

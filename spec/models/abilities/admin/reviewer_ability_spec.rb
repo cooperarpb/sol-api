@@ -13,7 +13,7 @@ RSpec.describe Abilities::Admin::ReviewerAbility, type: :model do
       it { is_expected.to be_able_to(:read, model) }
     end
 
-    [ Contract, Bidding, Proposal, Lot, LotProposal, Provider, Supplier, Unit,
+    [ Contract, Bidding, Proposal, Lot, LotProposal, LotQuestion, Provider, Supplier, Unit,
       User, Notification, Report ].each do |model|
       it { is_expected.to be_able_to(:manage, model) }
     end
@@ -25,7 +25,7 @@ RSpec.describe Abilities::Admin::ReviewerAbility, type: :model do
 
   context 'when there are not integrations' do
     [ Covenant, Group, Cooperative, Item, GroupItem, Contract, Bidding,
-      Proposal, Lot, LotProposal, Provider, Supplier, Unit, User,
+      Proposal, Lot, LotProposal, LotQuestion, Provider, Supplier, Unit, User,
       Notification, Report ].each do |model|
       it { is_expected.to be_able_to(:manage, model) }
     end
@@ -39,7 +39,7 @@ RSpec.describe Abilities::Admin::ReviewerAbility, type: :model do
   describe '.as_json' do
     let(:expected) do
       {
-        manage: %w[Covenant Group Cooperative Item GroupItem Contract Bidding Proposal Lot LotProposal Provider Supplier Unit User Notification Report],
+        manage: %w[Covenant Group Cooperative Item GroupItem Contract Bidding Proposal Lot LotProposal LotQuestion Provider Supplier Unit User Notification Report],
         mark_as_read: ["Notification"],
         read: %w[Admin],
         profile: ["Admin"],

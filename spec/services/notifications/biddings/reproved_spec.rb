@@ -35,5 +35,8 @@ RSpec.describe Notifications::Biddings::Reproved, type: [:service, :notification
     end
 
     it_should_behave_like 'services/concerns/notifications/fcm'
+
+    it_should_behave_like 'services/concerns/notifications/notification_mailer'
+
   end
 end

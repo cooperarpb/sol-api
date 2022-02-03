@@ -45,7 +45,12 @@ module Notifications
       receivable_list.each do |receiver|
         notification = Notification.create(notification_attributes(receiver))
 
-        ::Notifications::Fcm.delay.call(notification.id) if notification
+        if notification
+          ::Notifications::Fcm.delay.call(notification.id)
+
+          # Envia e-mail junto com a notificação com o mesmo conteúdo.
+          ::NotificationMailer.notification_email(notification).deliver_later
+        end
       end
     end
 
