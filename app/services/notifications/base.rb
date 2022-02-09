@@ -49,7 +49,10 @@ module Notifications
           ::Notifications::Fcm.delay.call(notification.id)
 
           # Envia e-mail junto com a notificação com o mesmo conteúdo.
-          ::NotificationMailer.notification_email(notification).deliver_later
+          # Email deve ser enviado apenas para usuários que não sejam fornecedores
+          # A interrupção do envio de e-mails para os fornecedores foi solicitada pelo cliente, pois
+          # foi constatado que os fornecedores estavam recebendo muitos e-mails. 
+          ::NotificationMailer.notification_email(notification).deliver_later unless receiver.is_a?(Supplier)
         end
       end
     end

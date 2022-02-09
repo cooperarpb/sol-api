@@ -27,7 +27,6 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:access_tokens).dependent(:destroy) }
     it { is_expected.to have_many(:access_grants).dependent(:destroy) }
     it { is_expected.to have_many(:device_tokens).dependent(:destroy) }
-    it { is_expected.to have_many(:lot_answers).dependent(:restrict_with_error) }
 
     it { is_expected.to belong_to :cooperative }
     it { is_expected.to belong_to(:role).optional }

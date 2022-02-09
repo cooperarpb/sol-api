@@ -45,7 +45,5 @@ RSpec.shared_examples 'services/concerns/proposal_import_notification' do |type|
     end
 
     it_should_behave_like 'services/concerns/notifications/fcm'
-
-    it_should_behave_like 'services/concerns/notifications/notification_mailer'
   end
 end
