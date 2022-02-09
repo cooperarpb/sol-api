@@ -8,8 +8,8 @@ RSpec.describe Search::StatesController, type: :controller do
       let(:json_response) { JSON.load(response.body).to_json }
       let(:result_arr) do 
         [
-          { id: states.first.id, text: states.first.text }, 
-          { id: states.second.id, text: states.second.text }
+          { id: states.first.id, text: states.first.name }, 
+          { id: states.second.id, text: states.second.name }
         ].to_json
       end
 

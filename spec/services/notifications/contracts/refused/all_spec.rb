@@ -126,6 +126,6 @@ RSpec.describe Notifications::Contracts::Refused::All, type: [:service, :notific
 
     it_should_behave_like 'services/concerns/notifications/fcm', 3
 
-    it_should_behave_like 'services/concerns/notifications/notification_mailer', 3
+    it_should_behave_like 'services/concerns/notifications/notification_mailer', 2
   end
 end
