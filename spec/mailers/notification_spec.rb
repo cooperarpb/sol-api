@@ -21,7 +21,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
   
     it 'renders the sender' do
-      expect(email.from).to eql(['nao-responda@car.ba.gov.br'])
+      expect(email.from).to eql(['no-reply@example.com'])
     end
 
     it 'renders body' do

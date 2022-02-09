@@ -35,7 +35,5 @@ RSpec.describe Notifications::Biddings::Failure::Provider, type: [:service, :not
     end
 
     it_should_behave_like 'services/concerns/notifications/fcm'
-
-    it_should_behave_like 'services/concerns/notifications/notification_mailer'
   end
 end
