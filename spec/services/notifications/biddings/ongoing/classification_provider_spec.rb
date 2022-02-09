@@ -82,8 +82,6 @@ RSpec.describe Notifications::Biddings::Ongoing::ClassificationProvider, type: [
       end
 
       it_should_behave_like 'services/concerns/notifications/fcm'
-
-      it_should_behave_like 'services/concerns/notifications/notification_mailer'
     end
   end
 end
