@@ -52,6 +52,7 @@ Rails.application.routes.draw do
       resources :lots, module: 'biddings', only: [:index, :show] do
         resources :lot_proposals, module: 'lots', only: [:index, :show, :create, :update, :destroy]
         resources :lot_proposal_imports, module: 'lots', only: [:show, :create]
+        resources :lot_questions, module: 'lots', only: [:index, :create]
         get :download
       end
 
@@ -100,6 +101,7 @@ Rails.application.routes.draw do
       resource :refinish, module: 'biddings', only: [:update]
       resources :lots, module: 'biddings' do
         resources :lot_proposals, module: 'lots', only: [:index, :show]
+        resources :lot_questions, module: 'lots', only: [:index, :show, :update]
       end
 
       resource :waiting, module: 'biddings', only: [:update]
@@ -165,6 +167,7 @@ Rails.application.routes.draw do
 
         resources :lots, only: [:index], module: 'biddings' do
           resources :lot_proposals, module: 'lots', only: [:index]
+          resources :lot_questions, module: 'lots', only: [:index]
         end
       end
     end
@@ -210,6 +213,9 @@ Rails.application.routes.draw do
   namespace :search do
     resources :admins, only: :index
     resources :cities, only: :index
+    resources :states, only: :index do
+      resources :cities, module: 'states', only: :index
+    end
     resources :cooperatives, only: :index
     resources :classifications, only: :index
     resources :items, only: :index

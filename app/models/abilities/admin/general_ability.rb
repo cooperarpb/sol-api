@@ -7,7 +7,7 @@ module Abilities::Admin
     ].freeze
 
     NOT_INTEGRATION_MODELS = [
-      Contract, Bidding, Proposal, Lot, LotProposal, Admin, Provider, Supplier,
+      Contract, Bidding, Proposal, Lot, LotProposal, LotQuestion, Admin, Provider, Supplier,
       Unit, User, Notification, Report
     ].freeze
 

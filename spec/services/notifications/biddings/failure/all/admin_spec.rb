@@ -90,5 +90,7 @@ RSpec.describe Notifications::Biddings::Failure::All::Admin, type: :service do
     end
 
     it_should_behave_like 'services/concerns/notifications/fcm'
+
+    it_should_behave_like 'services/concerns/notifications/notification_mailer'
   end
 end

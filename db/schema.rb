@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_27_163324) do
+ActiveRecord::Schema.define(version: 2021_11_22_131352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -346,6 +346,19 @@ ActiveRecord::Schema.define(version: 2021_10_27_163324) do
     t.index ["supplier_id"], name: "index_lot_proposals_on_supplier_id"
   end
 
+  create_table "lot_questions", force: :cascade do |t|
+    t.bigint "lot_id"
+    t.bigint "supplier_id"
+    t.bigint "user_id"
+    t.text "question"
+    t.text "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lot_id"], name: "index_lot_questions_on_lot_id"
+    t.index ["supplier_id"], name: "index_lot_questions_on_supplier_id"
+    t.index ["user_id"], name: "index_lot_questions_on_user_id"
+  end
+
   create_table "lots", force: :cascade do |t|
     t.bigint "bidding_id"
     t.string "name"
@@ -613,6 +626,9 @@ ActiveRecord::Schema.define(version: 2021_10_27_163324) do
   add_foreign_key "lot_proposal_imports", "providers"
   add_foreign_key "lot_proposals", "lots"
   add_foreign_key "lot_proposals", "suppliers"
+  add_foreign_key "lot_questions", "lots"
+  add_foreign_key "lot_questions", "suppliers"
+  add_foreign_key "lot_questions", "users"
   add_foreign_key "lots", "biddings"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"

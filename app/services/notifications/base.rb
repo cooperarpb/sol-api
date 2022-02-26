@@ -45,7 +45,15 @@ module Notifications
       receivable_list.each do |receiver|
         notification = Notification.create(notification_attributes(receiver))
 
-        ::Notifications::Fcm.delay.call(notification.id) if notification
+        if notification
+          ::Notifications::Fcm.delay.call(notification.id)
+
+          # Envia e-mail junto com a notificação com o mesmo conteúdo.
+          # Email deve ser enviado apenas para usuários que não sejam fornecedores
+          # A interrupção do envio de e-mails para os fornecedores foi solicitada pelo cliente, pois
+          # foi constatado que os fornecedores estavam recebendo muitos e-mails. 
+          ::NotificationMailer.notification_email(notification).deliver_later unless receiver.is_a?(Supplier)
+        end
       end
     end
 

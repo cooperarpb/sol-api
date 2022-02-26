@@ -607,7 +607,7 @@ RSpec.describe Bidding, type: :model do
         let!(:proposal_5) { create(:proposal, bidding: bidding, lot: lot_2, status: :sent) }
         let(:scope_params) { proposal_1.current_lot_ids }
 
-        it { is_expected.to match_array [proposal_2, proposal_3, proposal_4] }
+        it { is_expected.to match_array [proposal_2, proposal_3] }
       end
 
       context 'when the bidding kind is global' do
@@ -619,7 +619,7 @@ RSpec.describe Bidding, type: :model do
         let!(:proposal_5) { create(:proposal, bidding: bidding, status: :sent) }
         let(:scope_params) { bidding.lot_ids }
 
-        it { is_expected.to match_array [proposal_2, proposal_3, proposal_4, proposal_5] }
+        it { is_expected.to match_array [proposal_2, proposal_3, proposal_5] }
       end
     end
 
@@ -663,7 +663,7 @@ RSpec.describe Bidding, type: :model do
       end
     end
 
-    fdescribe '.fully_refused_proposals?' do
+    describe '.fully_refused_proposals?' do
       let!(:bidding)           { create(:bidding) }
       let(:refused_proposal_1) { create(:proposal, bidding: bidding, status: :refused) }
       let(:refused_proposal_2) { create(:proposal, bidding: bidding, status: :refused) }
