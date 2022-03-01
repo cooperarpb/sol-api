@@ -1,5 +1,5 @@
 module Administrator
-  class Biddings::GenerateFailureMinutesController < AdminController
+  class Biddings::RegenerateFailureMinutesController < AdminController
     include CrudController
 
     load_and_authorize_resource :bidding, parent: false
@@ -8,7 +8,7 @@ module Administrator
 
     def update
       if resource.failure?
-        Bidding::Minute::PdfGenerateWorker.perform_async(resource.id)
+        Bidding::Minute::PdfRegenerateWorker.perform_async(resource.id)
 
         render status: :ok
       else

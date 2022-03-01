@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Administrator::Biddings::GenerateFailureMinutesController, type: :controller do
+RSpec.describe Administrator::Biddings::RegenerateFailureMinutesController, type: :controller do
   let!(:bidding) { create(:bidding) }
   let(:user) { create(:admin) }
 
@@ -21,7 +21,7 @@ RSpec.describe Administrator::Biddings::GenerateFailureMinutesController, type: 
 
     describe 'response' do
       before do
-        allow(Bidding::Minute::PdfGenerateWorker).
+        allow(Bidding::Minute::PdfRegenerateWorker).
           to receive(:perform_async).with(bidding.id)
 
           post_update
@@ -31,12 +31,12 @@ RSpec.describe Administrator::Biddings::GenerateFailureMinutesController, type: 
         let!(:bidding) { create(:bidding, status: :failure) }
 
         it { expect(response).to have_http_status :ok }
-        it { expect(Bidding::Minute::PdfGenerateWorker).to have_received(:perform_async).with(bidding.id) }
+        it { expect(Bidding::Minute::PdfRegenerateWorker).to have_received(:perform_async).with(bidding.id) }
       end
 
       context 'when bidding does not have a failure status' do
         it { expect(response).to have_http_status :unprocessable_entity }
-        it { expect(Bidding::Minute::PdfGenerateWorker).not_to have_received(:perform_async) }
+        it { expect(Bidding::Minute::PdfRegenerateWorker).not_to have_received(:perform_async) }
       end
     end
   end
