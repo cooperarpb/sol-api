@@ -60,6 +60,7 @@ RSpec.describe Bidding, type: :model do
     it { is_expected.to have_many(:event_cancellation_requests).dependent(:destroy) }
     it { is_expected.to have_many(:event_bidding_reproveds).dependent(:destroy) }
     it { is_expected.to have_many(:event_bidding_failures).class_name(Events::BiddingFailure).dependent(:destroy) }
+    it { is_expected.to have_many(:sub_classifications).class_name(BiddingClassification).dependent(:destroy) }
   end
 
   describe 'validations' do
@@ -356,6 +357,11 @@ RSpec.describe Bidding, type: :model do
         end
       end
     end
+  end
+
+  describe 'nested_attributes' do
+    it { is_expected.to accept_nested_attributes_for(:invites) }
+    it { is_expected.to accept_nested_attributes_for(:sub_classifications) }
   end
 
   describe 'callbacks' do

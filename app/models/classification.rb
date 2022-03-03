@@ -6,6 +6,7 @@ class Classification < ApplicationRecord
 
   belongs_to :classification, optional: true
   has_many :classifications, dependent: :destroy
+  has_many :bidding_classifications, dependent: :destroy
 
   has_many :items
 
