@@ -11,9 +11,4 @@ RSpec.describe BiddingClassification, type: :model do
     it { is_expected.to belong_to(:bidding) }
     it { is_expected.to belong_to(:classification) }
   end
-
-  describe 'validations' do
-    it { is_expected.to validate_presence_of :bidding }
-    it { is_expected.to validate_presence_of :classification }
-  end
 end

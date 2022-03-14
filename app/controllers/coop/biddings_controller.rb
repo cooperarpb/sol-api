@@ -10,7 +10,7 @@ module Coop
       invites_attributes: [
         :id, :provider_id, :_destroy
       ],
-      classifications_attributes: [
+      bidding_classifications_attributes: [
         :id, :classification_id, :_destroy
       ],
     ].freeze
