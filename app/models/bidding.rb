@@ -82,7 +82,16 @@ class Bidding < ApplicationRecord
            class_name: 'Events::BiddingFailure', foreign_key: :eventable_id,
            dependent: :destroy
 
+  has_many :bidding_classifications,
+           class_name: 'BiddingClassification',
+           dependent: :destroy
+
+  has_many :classifications,
+           through: :bidding_classifications,
+           class_name: 'Classification'
+
   accepts_nested_attributes_for :invites, allow_destroy: true
+  accepts_nested_attributes_for :bidding_classifications, allow_destroy: true, reject_if: :all_blank
 
   validates :covenant,
             :description,
