@@ -13,6 +13,8 @@ RSpec.describe Coop::LotGroupItemSerializer, type: :serializer do
       .where(group_items: { item_id: object.group_item.item_id }).uniq.count
     end
 
+    let(:item_id) { object.item.id }
+
     it { is_expected.to include 'id' => object.id }
     it { is_expected.to include 'lot_id' => object.lot_id }
     it { is_expected.to include 'group_item_id' => object.group_item_id }
@@ -26,5 +28,6 @@ RSpec.describe Coop::LotGroupItemSerializer, type: :serializer do
     it { is_expected.to include '_destroy' => object._destroy }
     it { is_expected.to include 'lot_group_item_count' => lot_group_item_count }
     it { is_expected.to include 'lot_name' => lot_name }
+    it { is_expected.to include 'item_id' => item_id }
   end
 end
