@@ -28,6 +28,7 @@ RSpec.describe Coop::LotGroupItemSerializer, type: :serializer do
     it { is_expected.to include '_destroy' => object._destroy }
     it { is_expected.to include 'lot_group_item_count' => lot_group_item_count }
     it { is_expected.to include 'lot_name' => lot_name }
+    it { is_expected.to include 'group_id' => object.group_item.group_id }
     it { is_expected.to include 'item_id' => item_id }
   end
 end
