@@ -1,0 +1,6 @@
+fr-FR:
+  notifications:
+    lot_attachment:
+      sent:
+        title: Nouvelle pièce jointe pour les enchères %s.
+        body: Il y a une nouvelle pièce jointe pour le lot <strong>%s</strong> de l'enchère <strong>%s</strong>.

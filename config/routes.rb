@@ -53,6 +53,9 @@ Rails.application.routes.draw do
         resources :lot_proposals, module: 'lots', only: [:index, :show, :create, :update, :destroy]
         resources :lot_proposal_imports, module: 'lots', only: [:show, :create]
         resources :lot_questions, module: 'lots', only: [:index, :create]
+        resources :lot_attachments, module: 'lots', only: [:index, :create, :destroy] do
+          post :send_lot_attachment, on: :member
+        end
         get :download
       end
 
@@ -102,6 +105,9 @@ Rails.application.routes.draw do
       resources :lots, module: 'biddings' do
         resources :lot_proposals, module: 'lots', only: [:index, :show]
         resources :lot_questions, module: 'lots', only: [:index, :show, :update]
+        resources :lot_attachments, module: 'lots', only: :index do
+          post :request_lot_attachment, on: :collection
+        end
       end
 
       resource :waiting, module: 'biddings', only: [:update]
