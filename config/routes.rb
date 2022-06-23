@@ -64,7 +64,8 @@ Rails.application.routes.draw do
       end
     end
 
-    patch 'profile', to: 'suppliers#profile'
+    patch 'profile', to: 'providers#profile'
+    get 'find_current_provider', to: 'providers#find_current_provider'
   end
 
   namespace :coop, path: 'cooperative', as: 'cooperative' do
