@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_03_181236) do
+ActiveRecord::Schema.define(version: 2022_05_03_185313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -302,6 +302,16 @@ ActiveRecord::Schema.define(version: 2022_03_03_181236) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["representable_type", "representable_id"], name: "index_legal_reps_on_representable_type_and_representable_id"
+  end
+
+  create_table "lot_attachments", force: :cascade do |t|
+    t.bigint "lot_id"
+    t.bigint "supplier_id"
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lot_id"], name: "index_lot_attachments_on_lot_id"
+    t.index ["supplier_id"], name: "index_lot_attachments_on_supplier_id"
   end
 
   create_table "lot_group_item_lot_proposals", force: :cascade do |t|
@@ -628,6 +638,8 @@ ActiveRecord::Schema.define(version: 2022_03_03_181236) do
   add_foreign_key "invites", "biddings"
   add_foreign_key "invites", "providers"
   add_foreign_key "items", "classifications"
+  add_foreign_key "lot_attachments", "lots"
+  add_foreign_key "lot_attachments", "suppliers"
   add_foreign_key "lot_group_item_lot_proposals", "lot_group_items"
   add_foreign_key "lot_group_item_lot_proposals", "lot_proposals"
   add_foreign_key "lot_group_items", "group_items"
