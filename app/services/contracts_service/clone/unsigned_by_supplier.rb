@@ -1,5 +1,11 @@
 module ContractsService
   class Clone::UnsignedBySupplier < Clone::Base
+    def main_method
+      generate_addendum_unsigned_by_supplier_pdf if change_status_cancel_and_clone
+
+      change_status_cancel_and_clone
+    end
+
     private
 
     def change_status_cancel_and_clone
@@ -23,6 +29,12 @@ module ContractsService
 
     def notify
       Notifications::Contracts::UnsignedBySupplier.call(contract: contract)
+    end
+
+    # Gera o adendo da ata fazendo referência ao último contrato gerado, pois o reopen_reason_contract não é alterado
+    # ao clonar a licitação.
+    def generate_addendum_unsigned_by_supplier_pdf
+      Bidding::Minute::AddendumUnsignedBySupplierPdfGenerateWorker.perform_async(contract.id)
     end
   end
 end
