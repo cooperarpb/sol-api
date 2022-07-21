@@ -1,7 +1,8 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.11.0"
 
-set :application, "sdc-api"
+# set :application, "sdc-api"
+set :application, "sol-api"
 set :repo_url, "https://github.com/car-bahia/sol-api.git"
 
 # Default branch is :master
@@ -12,7 +13,8 @@ else
 end
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, -> { fetch(:stage_deploy_to, "/app/#{fetch(:application)}/#{fetch(:stage)}") }
+# set :deploy_to, -> { fetch(:stage_deploy_to, "/app/#{fetch(:application)}/#{fetch(:stage)}") }
+set :deploy_to, -> { fetch(:stage_deploy_to, "/app/#{fetch(:application)}/production") }
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
