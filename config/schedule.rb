@@ -55,7 +55,8 @@ every 2.minutes, roles: [:app] do
 end
 
 # Status changes
-every 1.day, at: '08:00 am', roles: [:app] do
+# every 1.day, at: '08:00 am', roles: [:app] do
+every 5.minutes, roles: [:app] do
   runner "Bidding::ApprovedToOngoingWorker.perform_async"
 end
 
