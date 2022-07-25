@@ -7,7 +7,8 @@ module Blockchain
       attr_accessor :bidding_id
       
 
-      ENDPOINT = "/sdc/queryBidding"
+      ENDPOINT = "/api/Bidding"
+      # ENDPOINT = "/sdc/queryBidding"
 
       def self.call(bidding_id)
         new(bidding_id).call
