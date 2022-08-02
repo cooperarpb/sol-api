@@ -27,13 +27,6 @@ module Blockchain
       def request
         @request ||= begin
           @client.request(verb: verb, endpoint: self.class::ENDPOINT, params: nil)
-
-          # if Rails.env.production?
-          #   @client.request(verb: verb, endpoint: self.class::ENDPOINT, params: nil)
-          # else
-          #   bc = Struct.new(:success?)
-          #   bc.new(true)
-          # end
         end
       end
     end

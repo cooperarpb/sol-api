@@ -6,9 +6,7 @@ module Blockchain
     class Get
       attr_accessor :bidding_id
       
-
       ENDPOINT = "/api/Bidding"
-      # ENDPOINT = "/sdc/queryBidding"
 
       def self.call(bidding_id)
         new(bidding_id).call
@@ -42,6 +40,7 @@ module Blockchain
 
       def request
         @request ||= begin
+          @client.token_request
           @client.request(verb: verb, endpoint: endpoint, params: params)
         end
       end

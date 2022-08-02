@@ -4,8 +4,8 @@ require './lib/api_blockchain/response'
 module Blockchain
   module Bidding
     class GetAll
+
       ENDPOINT = "/api/Bidding"
-      # ENDPOINT = "/sdc/queryAllAssets"
 
       def self.call
         new.call
@@ -27,6 +27,7 @@ module Blockchain
 
       def request
         @request ||= begin
+          @client.token_request
           @client.request(verb: verb, endpoint: self.class::ENDPOINT, params: nil)
         end
       end
