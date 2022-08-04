@@ -54,6 +54,22 @@ RSpec.describe Notifications::Biddings::Ongoing::ClassificationProvider, type: [
       it { expect{ service.call }.to change{ Notification.count }.by(1) }
     end
 
+    context 'when bidding has sub_classifications' do
+      let!(:bidding)  do
+        create(:bidding, kind: :global, status: :ongoing, classification: another_parent_classification)
+      end
+
+      before do
+        bidding.bidding_classifications << create(:bidding_classification, classification: another_children_classification, bidding: bidding)
+
+        service.call
+      end
+
+      let!(:notification) { Notification.last }
+
+      it { expect(notification.receivable).to eq another_supplier }
+    end
+
     describe 'notification' do
       before { service.call }
 

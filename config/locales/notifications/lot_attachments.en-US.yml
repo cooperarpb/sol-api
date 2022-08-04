@@ -1,0 +1,6 @@
+en-US:
+  notifications:
+    lot_attachment:
+      sent:
+        title: New attachment for the %s bidding.
+        body: There is a new attachment for lot <strong>%s</strong> of bidding <strong>%s</strong>.

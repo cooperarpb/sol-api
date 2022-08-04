@@ -21,6 +21,7 @@ class Lot < ApplicationRecord
   has_many :lot_proposals, dependent: :destroy
   has_many :proposals, through: :lot_proposals
   has_many :lot_proposal_imports, dependent: :destroy
+  has_many :lot_attachments, dependent: :destroy
   has_many :attachments, as: :attachable, dependent: :destroy
   has_many :lot_questions, dependent: :destroy
 

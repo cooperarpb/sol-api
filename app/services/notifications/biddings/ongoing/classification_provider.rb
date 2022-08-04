@@ -16,7 +16,13 @@ module Notifications
     end
 
     def classifications
+      return sub_classifications if sub_classifications.present?
+
       bidding.classification.children_classifications
+    end
+
+    def sub_classifications
+      @sub_classifications ||= bidding.classifications
     end
   end
 end

@@ -1,0 +1,9 @@
+en-US:
+  notifications:
+    lot_question:
+      sent:
+        title: New question for bidding %s.
+        body: There is a new question for lot <strong>%s</strong> from bidding <strong>%s</strong>.
+      answered:
+        title: Response to bidding %s.
+        body: There is a response for lot <strong>%s</strong> from bidding <strong>%s</strong>.
