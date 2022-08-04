@@ -32,6 +32,7 @@ RSpec.describe Blockchain::Contract::Update do
     {
       "$class" => "sdc.network.Contract",
       "contractHash" => contract.id.to_s,
+      "contractId" => contract.id.to_s,
       "bidding" => "resource:sdc.network.Bidding##{contract.bidding.id}",
       "status" => contract.status.upcase,
       "price_total" => contract.proposal.price_total.to_f,
