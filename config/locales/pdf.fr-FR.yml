@@ -34,6 +34,7 @@
           proposals_accepted: "La société %s / %s a été déclarée gagnante avec la valeur de %s (%s), car c'est celle qui a présenté l'offre au moindre montant et conformément au Terme de Référence présenté par l'Association."
           proposals_accepted_without_text_value: "La société %s / %s a été déclarée gagnante avec la valeur de %s, car c'est celle qui a présenté l'offre au moindre montant et conformément au Terme de Référence présenté par l'Association."
           contract_refused: "Le contrat %s a été refusé par le fournisseur pour la (les) raison(s) %s"
+          contract_unsigned_by_supplier: "Le contrat %s n'a pas été signé par le fournisseur %s dans les %s jours"
           contract_total_inexecution: "Le contrat %s avec le fournisseur %s / CPF/CNPJ %s a été actualisé à la situation de non réalisation totale par l'association %s."
           no_proposals: Aucune entreprise n'a été gagnante.
 

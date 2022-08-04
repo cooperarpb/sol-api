@@ -1,0 +1,13 @@
+fr-FR:
+  notifications:
+    lot_question:
+      sent:
+        title: >
+          Nouvelle question pour l'enchère %s.
+        body: >
+          Il y a une nouvelle question pour le lot <strong>%s</strong> de l'enchère <strong>%s</strong>.
+      answered:
+        title: >
+          réponse à l'enchère %s.
+        body: >
+          Il y a une réponse pour le lot <strong>%s</strong> de l'offre <strong>%s</strong>.

@@ -1,0 +1,12 @@
+pt-BR:
+  notifications:
+    lot_attachment:
+      sent:
+        title: Novo anexo para a licitação %s.
+        body: Há um novo anexo para o lote <strong>%s</strong> da licitação <strong>%s</strong>.
+
+      request:
+        title: Solicitação de documentação para a licitação %s.
+        body: >
+          Solicitação de documentação para o lote <strong>%s</strong> da licitação <strong>%s</strong>.
+          Mensagem: %s

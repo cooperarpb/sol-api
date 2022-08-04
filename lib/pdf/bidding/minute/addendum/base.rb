@@ -38,11 +38,12 @@ module Pdf::Bidding::Minute
     end
 
     def contract_not_able_to_generate?
-      ! (contract.refused? || contract.total_inexecution?)
+      ! (contract.refused? || contract.total_inexecution? || contract.unsigned_by_supplier?)
     end
 
     def contract_status_text
       return contract_refused_text if contract.refused?
+      return ""                    if contract.unsigned_by_supplier?
 
       contract_total_inexecution_text
     end
@@ -105,6 +106,8 @@ module Pdf::Bidding::Minute
     end
 
     def provider
+      return contract.proposal.provider if contract.unsigned_by_supplier?
+
       @provider ||= contract.refused? ? contract.refused_by.provider : contract.supplier.provider
     end
 

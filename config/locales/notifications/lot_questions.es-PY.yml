@@ -1,0 +1,9 @@
+es-PY:
+  notifications:
+    lot_question:
+      sent:
+        title: Nueva pregunta para la licitación %s.
+        body: Hay una nueva pregunta para el lote <strong>%s</strong> de la licitación <strong>%s</strong>.
+      answered:
+        title: Respuesta a la licitación %s.
+        body: Hay una respuesta para el lote <strong>%s</strong> de la licitación <strong>%s</strong>.

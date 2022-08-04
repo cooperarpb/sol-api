@@ -6,6 +6,8 @@ class Proposal < ApplicationRecord
 
   attr_accessor :import_creating
 
+  IGNORED_PROPOSAL_STATUSES_FOR_LOT_ATTACHMENTS = %i[failure draft abandoned coop_refused refused coop_accepted accepted sent draw]
+
   before_destroy do
     imports_running
     throw(:abort) if errors.present?

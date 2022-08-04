@@ -9,7 +9,10 @@ module Coop
       :closing_date, :covenant_id, :address, :draw_end_days, :classification_id,
       invites_attributes: [
         :id, :provider_id, :_destroy
-      ]
+      ],
+      bidding_classifications_attributes: [
+        :id, :classification_id, :_destroy
+      ],
     ].freeze
 
     expose :biddings, -> { find_biddings }
