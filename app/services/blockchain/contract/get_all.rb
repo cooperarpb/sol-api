@@ -3,16 +3,15 @@ require './lib/api_blockchain/response'
 
 module Blockchain
   module Contract
-    class Get
+    class GetAll
 
       ENDPOINT = "/api/Contract"
 
-      def self.call(contract_id)
-        new(contract_id).call
+      def self.call
+        new.call
       end
 
-      def initialize(contract_id)
-        @contract_id = contract_id
+      def initialize
         @client = ApiBlockchain::Client.new
       end
 
@@ -28,10 +27,6 @@ module Blockchain
       end
 
       private
-
-      def endpoint
-        [self.class::ENDPOINT, id].join('/')
-      end
       
       def verb
         'GET'
@@ -40,7 +35,7 @@ module Blockchain
       def request
         @request ||= begin
           @client.token_request
-          @client.request(verb: verb, endpoint: endpoint, params: nil)
+          @client.request(verb: verb, endpoint: self.class::ENDPOINT, params: nil)
         end
       end
     end
