@@ -26,6 +26,7 @@ module Blockchain
 
       def request
         @request ||= begin
+          @client.token_request
           @client.request(verb: verb, endpoint: self.class::ENDPOINT, params: nil)
         end
       end
