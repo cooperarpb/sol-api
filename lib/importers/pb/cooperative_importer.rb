@@ -1,5 +1,3 @@
-require './lib/importers/pb/concerns/stringable'
-require './lib/importers/pb/concerns/maskable'
 require './lib/importers/log_importer'
 
 
@@ -39,6 +37,8 @@ require './lib/importers/log_importer'
 module Importers
   module Pb
     class CooperativeImporter
+      include LogImporter
+
       attr_accessor :cooperative_hash
 
       def initialize(cooperative_hash)
@@ -56,11 +56,15 @@ module Importers
       private
 
       def import
+        @errors = []
+
         return unless cooperative_hash.present?
 
         import_cooperative
         import_address
         import_legal_representative
+
+        save_resource(@cooperative)
       end
 
       def import_cooperative
@@ -73,7 +77,7 @@ module Importers
         address.attributes = address_attributes(cooperative_hash[:address])
         address.skip_integration_validations!
   
-        save_resource!(address) if address.persisted?
+        save_resource(address) if address.persisted?
   
         errorify(address)
       end
@@ -88,7 +92,7 @@ module Importers
         legal_representative_address.skip_integration_validations!
         legal_representative_address.attributes = address_attributes(cooperative_hash.dig(:legal_representative, :address))
   
-        save_resource!(legal_representative_address) if legal_representative_address.persisted?
+        save_resource(legal_representative_address) if legal_representative_address.persisted?
   
         errorify(legal_representative_address)
       end
@@ -96,9 +100,9 @@ module Importers
       def address_attributes(attributes)
         return {} unless attributes.present?
   
-        attributes[:city_id] = find_city(attributes[:city_code])&.id
+        attributes[:city_id] = find_city(city_name: attributes[:city_name], state_uf: attributes[:state_uf])&.id
         attributes[:cep] = mask_cep(attributes[:cep])
-        attributes.except(:city, :state, :city_code)
+        attributes.except(:city, :state_uf, :city_name)
       end
 
       def legal_representative_attributes
@@ -108,18 +112,49 @@ module Importers
         attributes.except(:address).merge(civil_state: civil_state_enum, cpf: cpf)
       end
 
-      def save_resource!(resource, params={})
-        begin
-          resource.save!
-        rescue StandardError => e
-          errorify(resource, { skip_errors: :users })
+      def save_resource(resource, params={})
+        return [true, nil] if resource.save
+        
+        errorify(resource, { skip_errors: :users })
+        [false, errors_as_sentence]
+      end
 
-          raise StandardError, errors_as_sentence
+      def civil_state_enum
+        civil_state = squish(cooperative_hash.dig(:legal_representative, :civil_state) || '')
+  
+        case civil_state[0..2].upcase
+        when "SOL" then :single
+        when "CAS" then :married
+        when "DIV" then :divorced
+        when "VIU" then :widower
+        when "SEP" then :separated
+        else :single
         end
       end
 
-      def find_city(city_code)
-        City.find_by(code: city_code.to_i)
+      def resource_klass
+        'cooperative'
+      end
+  
+      def log_header_title
+        cooperative_cnpj
+      end
+
+      def mask_cep(cep)
+        ZipCode.mask(cep)
+      end 
+
+      def mask_cnpj(number)
+        CNPJ.mask(number)
+      end
+
+      def squish(attribute)
+        (attribute || '').squish
+      end
+
+      def find_city(**args)
+        City.includes(:state)
+            .find_by(name: args[:city_name], states: { uf: args[:state_uf] })
       end
 
       def cooperative_cnpj
