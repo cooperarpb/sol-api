@@ -15,7 +15,7 @@ namespace :pb do
           name: row['NOME'],
           address: {
             email: row['EMAIL'],
-            phone: row['TELEFONE'],
+            phone: row['TELEFONE'] || '-',
             address: row['ENDERECO'],
             city_name: row['CIDADE'],
             state_uf: row['UF'],
@@ -34,7 +34,7 @@ namespace :pb do
             cpf: row['CPF'],
             address: {
               email: row['EMAIL_REPRESENTANTE'],
-              phone: row['TELEFONE_REPRESENTANTE'],
+              phone: row['TELEFONE_REPRESENTANTE'] || '-',
               address: row['ENDERECO_REPRESENTANTE'],
               city_name: row['CIDADE_REPRESENTANTE'],
               state_uf: row['UF_REPRESENTANTE'],
