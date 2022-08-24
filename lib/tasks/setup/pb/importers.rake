@@ -1,4 +1,5 @@
 require './lib/importers/pb/cooperative_importer'
+require './lib/importers/pb/covenant_importer'
 
 namespace :pb do
   namespace :importers do
@@ -49,6 +50,39 @@ namespace :pb do
         }
 
         success, errors = Importers::Pb::CooperativeImporter.call(resource)
+
+        if success == true
+          puts "Importado ou atualizado com sucesso!"
+        else
+          puts errors
+        end
+      end
+    end
+
+    task covenant: :environment do |task|
+      file = ENV['FILE']
+
+      raise ArgumentError, 'O parâmetro FILE está em branco' unless file.present? && File.file?(file)
+
+      CSV.foreach(file, headers: true, col_sep: '|') do |row|
+        resource = {
+          number: row['NUMERO'],
+          name: row['NOME'],
+          status: row['SITUACAO'],
+          signature_date: row['DATA_ASSINATURA'],
+          validity_date: row['DATA_VALIDADE'],
+          estimated_cost: row['CUSTO_ESTIMADO'],
+          city_name: row['CIDADE'],
+          state_uf: row['UF'],
+          cooperative_cnpj: row['COOPERATIVA_CNPJ'],
+          admin: {
+            email: row['ADMIN_EMAIL'],
+            name: row['ADMIN_NOME'],
+            locale: 'pt-BR'
+          }
+        }
+
+        success, errors = Importers::Pb::CovenantImporter.call(resource)
 
         if success == true
           puts "Importado ou atualizado com sucesso!"
