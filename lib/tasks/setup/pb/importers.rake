@@ -1,10 +1,9 @@
 require './lib/importers/pb/cooperative_importer'
 require './lib/importers/pb/covenant_importer'
+require './lib/importers/pb/group_importer'
 
 namespace :pb do
-  namespace :importers do
-    desc ''
-    
+  namespace :importers do    
     task cooperative: :environment do |task|
       file = ENV['FILE']
 
@@ -83,6 +82,36 @@ namespace :pb do
         }
 
         success, errors = Importers::Pb::CovenantImporter.call(resource)
+
+        if success == true
+          puts "Importado ou atualizado com sucesso!"
+        else
+          puts errors
+        end
+      end
+    end
+
+    task group_item: :environment do |task|
+      file = ENV['FILE']
+
+      raise ArgumentError, 'O parâmetro FILE está em branco' unless file.present? && File.file?(file)
+
+      CSV.foreach(file, headers: true, col_sep: '|') do |row|
+        resource = {
+          covenant_number: row['CONVENIO_NUMERO'],
+          group_name: row['GRUPO_NOME'],
+          quantity: row['ITEM_QUANTIDADE'],
+          estimated_cost: row['ITEM_CUSTO_ESTIMADO'],
+          item_attributes: {
+            title: row['ITEM_TITULO'],
+            classification: row['ITEM_CODIGO_CLASSIFICACAO'],
+            unit: row['ITEM_UNIDADE'],
+            description: row['ITEM_DESCRICAO'],
+            code: row['ITEM_CODIGO']
+          },
+        }
+
+        success, errors = Importers::Pb::GroupImporter.call(resource)
 
         if success == true
           puts "Importado ou atualizado com sucesso!"
