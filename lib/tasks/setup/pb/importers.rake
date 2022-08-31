@@ -1,6 +1,7 @@
 require './lib/importers/pb/cooperative_importer'
 require './lib/importers/pb/covenant_importer'
 require './lib/importers/pb/group_importer'
+require './lib/importers/pb/user_importer'
 
 namespace :pb do
   namespace :importers do    
@@ -112,6 +113,31 @@ namespace :pb do
         }
 
         success, errors = Importers::Pb::GroupImporter.call(resource)
+
+        if success == true
+          puts "Importado ou atualizado com sucesso!"
+        else
+          puts errors
+        end
+      end
+    end
+
+    task user: :environment do |task|
+      file = ENV['FILE']
+
+      raise ArgumentError, 'O parâmetro FILE está em branco' unless file.present? && File.file?(file)
+
+      CSV.foreach(file, headers: true, col_sep: '|') do |row|
+        resource = {
+          cooperative_cnpj: row['COOPERATIVA_CNPJ'],
+          role: row['CARGO'],
+          cpf: row['CPF'],
+          phone: row['TELEFONE'],
+          email: row['EMAIL'],
+          name: row['NOME']
+        }
+
+        success, errors = Importers::Pb::UserImporter.call(resource)
 
         if success == true
           puts "Importado ou atualizado com sucesso!"
