@@ -25,9 +25,10 @@ if item_cron_syntax_frequency.present?
 end
 
 # Refuse old contracts
-every 30.minutes, roles: [:app] do
-  runner "Contract::SystemRefuseWorker.perform_async"
-end
+# Descomentar após testar em QA
+# every 30.minutes, roles: [:app] do
+#   runner "Contract::SystemRefuseWorker.perform_async"
+# end
 
 # TODO: Alterar schedule após testes em QA
 # every 1.day, at: '02:00 am', roles: [:app] do
