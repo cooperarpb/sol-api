@@ -26,9 +26,9 @@ end
 
 # Refuse old contracts
 # Descomentar após testar em QA
-# every 30.minutes, roles: [:app] do
-#   runner "Contract::SystemRefuseWorker.perform_async"
-# end
+every 30.minutes, roles: [:app] do
+  runner "Contract::SystemRefuseWorker.perform_async"
+end
 
 # TODO: Alterar schedule após testes em QA
 # every 1.day, at: '02:00 am', roles: [:app] do
