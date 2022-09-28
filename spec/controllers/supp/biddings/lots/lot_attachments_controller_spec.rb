@@ -39,7 +39,6 @@ RSpec.describe Supp::Biddings::Lots::LotAttachmentsController, type: :controller
       end
 
       it { expect(lot_attachments).to have_received(:sorted).with('lot_attachments.created_at', :desc) }
-      it { expect(lot_attachments).to have_received(:page).at_least(:once).with(2) }
       it { expect(described_class::PER_PAGE).to eq 20 }
     end
 
