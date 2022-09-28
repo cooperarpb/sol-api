@@ -9,6 +9,10 @@ module Coop
     expose :lot_attachment
     expose :lot_attachments, -> { find_lot_attachments }
 
+    def index
+      render json: sorted_resources, each_serializer: Coop::LotAttachmentSerializer
+    end
+
     def request_lot_attachment
       if supplier.present?
         Notifications::LotAttachments::Request.call(params[:notification_message], lot, supplier)
