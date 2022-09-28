@@ -18,6 +18,10 @@ module Supp
     expose :lot_attachment
     expose :lot_attachments, -> { find_lot_attachments }
 
+    def index
+      render json: sorted_resources, each_serializer: Supp::LotAttachmentSerializer
+    end
+
     def send_lot_attachment
       if LotAttachmentsService::Sent.call(lot_attachment: resource)
         render json: resource, status: :ok
