@@ -9,12 +9,11 @@ module Coop
     end
 
     def covenant_draft_biddings_in_use
-      ActiveModelSerializers::SerializableResource.new(
-        Bidding.draft
-               .includes(:lot_group_items)
-               .where(lot_group_items: { group_item_id: object }, covenant: covenant),
-        each_serializer: Coop::BiddingSerializer
-      )
+      Bidding.draft
+             .includes(:lot_group_items)
+             .where(lot_group_items: { group_item_id: object }, covenant: covenant)
+             .pluck(:title)
+             .to_sentence
     end
   end
 end
