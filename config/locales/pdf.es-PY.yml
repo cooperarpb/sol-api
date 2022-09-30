@@ -36,7 +36,7 @@
           proposals_accepted: "La empresa %s / %s ha sido declarada ganadora por el valor de %s (%s), teniendo en cuenta que fue la que presentó la propuesta de menor valor y de conformidad con los Términos de referencia presentados por la asociación."
           proposals_accepted_without_text_value: "La empresa %s / %s ha sido declarada ganadora por el valor de %s, teniendo en cuenta que fue la que presentó la propuesta de menor valor y de conformidad con los Términos de referencia presentados por la asociación."
           contract_refused: "El contrato %s ha sido rechazado por el proveedor %s por el/los motivo/s %s"
-          contract_unsigned_by_supplier: "El contrato %s no fue firmado por el proveedor %s en %s días"
+          contract_unsigned_by_supplier: "El contrato %s no fue firmado por el proveedor %s en %s días según el aviso"
           contract_total_inexecution: "El contrato %s con el proveedor %s / CNPJ %s ha sido actualizado para la situación de falta de ejecución total por la asociación %s."
           no_proposals: Ninguna empresa ganadora.
 
