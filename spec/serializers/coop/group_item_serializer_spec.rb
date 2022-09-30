@@ -20,7 +20,7 @@ RSpec.describe Coop::GroupItemSerializer, type: :serializer do
         subject { format_json(described_class, object, scope: { covenant: covenant }) }
 
         it { expect(subject.keys).to include 'covenant_draft_biddings_in_use' }
-        it { expect(subject['covenant_draft_biddings_in_use'].count).to eq(1) }
+        it { expect(subject['covenant_draft_biddings_in_use']).to eq(draft_bidding.title) }
       end
 
       context 'when covenant scope is not present' do
