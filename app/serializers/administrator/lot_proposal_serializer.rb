@@ -28,7 +28,7 @@ module Administrator
 
     def lot_attachments
       ActiveModelSerializers::SerializableResource.new(
-        object.lot.lot_attachments.where(supplier: object.supplier),
+        object.lot.lot_attachments.sent.where(supplier: object.supplier),
         each_serializer: Administrator::LotAttachmentSerializer
       )
     end
