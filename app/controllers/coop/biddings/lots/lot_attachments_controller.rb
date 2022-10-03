@@ -42,7 +42,7 @@ module Coop
     end
 
     def find_lot_attachments
-      LotAttachment.accessible_by(current_ability).by_lot(lot)
+      LotAttachment.accessible_by(current_ability).by_lot(lot).sent
     end
   end
 end
