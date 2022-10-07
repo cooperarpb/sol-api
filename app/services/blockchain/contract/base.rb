@@ -33,6 +33,7 @@ module Blockchain
       def request
         @request ||= begin
           if Rails.env.production?
+            client.token_request
             client.request(verb: verb, endpoint: endpoint, params: params)
           else
             bc = Struct.new(:success?)
@@ -46,7 +47,6 @@ module Blockchain
           .merge(supplier_params)
           .merge(deleted_params)
           .merge(refused_by_params)
-          .except(remove_contract_params)
       end
 
       def base_params
@@ -63,11 +63,6 @@ module Blockchain
           "proposal" => "resource:sdc.network.Proposal##{contract.proposal_id}",
           "returnedLotGroupItems" => returned_lot_group_item
         }
-      end
-
-      def remove_contract_params
-        return nil unless self.is_a? Blockchain::Contract::Update
-        "contractId"
       end
 
       def supplier_params
@@ -107,4 +102,3 @@ module Blockchain
     end
   end
 end
-
