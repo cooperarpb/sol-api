@@ -5,7 +5,7 @@ namespace :oauth do
 
     desc 'Creating base OAuth Apps'
     task load: :environment do |task|
-      Doorkeeper::Application.find_or_create_by!(name: 'sdc-cooperative-fronted.vue') do |app|
+      Doorkeeper::Application.find_or_create_by!(name: 'sdc-cooperative-frontend.vue') do |app|
         app.attributes = {
           confidential: false, # it's a webapp! Also, confidential apps must authenticate when revoking tokens!
           uid: SecureRandom.hex(64),
@@ -15,7 +15,7 @@ namespace :oauth do
         }
       end
 
-      Doorkeeper::Application.find_or_create_by!(name: 'sdc-supplier-fronted.vue') do |app|
+      Doorkeeper::Application.find_or_create_by!(name: 'sdc-supplier-frontend.vue') do |app|
         app.attributes = {
           confidential: false, # it's a webapp! Also, confidential apps must authenticate when revoking tokens!
           uid: SecureRandom.hex(64),
