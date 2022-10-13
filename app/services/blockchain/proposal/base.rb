@@ -73,6 +73,7 @@ module Blockchain
       def request
         @request ||= begin
           if Rails.env.production?
+            @client.token_request
             @client.request(verb: verb, endpoint: endpoint, params: params)
           else
             bc = Struct.new(:success?)
@@ -83,4 +84,3 @@ module Blockchain
     end
   end
 end
-
