@@ -14,7 +14,7 @@ module Supp
     end
 
     def show
-      render json: lot, serializer: Supp::LotSerializer
+      render json: lot, serializer: Supp::LotSerializer, scope: current_user
     end
 
     private
