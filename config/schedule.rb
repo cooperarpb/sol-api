@@ -25,30 +25,23 @@ if item_cron_syntax_frequency.present?
 end
 
 # Refuse old contracts
-# Descomentar após testar em QA
 every 30.minutes, roles: [:app] do
   runner "Contract::SystemRefuseWorker.perform_async"
 end
 
-# TODO: Alterar schedule após testes em QA
-# every 1.day, at: '02:00 am', roles: [:app] do
-every 2.minutes, roles: [:app] do
+every 1.day, at: '02:00 am', roles: [:app] do
   # Notifica aos fornecedores que o prazo de assinatura do contrato definido pela 
   # constante Contract::SUPPLIER_SIGNATURE_DEADLINE está próximo 
   runner "Contract::SupplierSignature::CloseToDeadlineWorker.perform_async"
 end
 
-# TODO: Alterar schedule após testes em QA
-# every 1.day, at: '03:00 am', roles: [:app] do
-every 2.minutes, roles: [:app] do
+every 1.day, at: '03:00 am', roles: [:app] do
   # Notifica aos fornecedores que é o último dia do prazo de assinatura do contrato
   # definido pela constante Contract::SUPPLIER_SIGNATURE_DEADLINE
   runner "Contract::SupplierSignature::LastDayOfDeadlineWorker.perform_async"
 end
 
-# TODO: Alterar schedule após testes em QA
-# every 1.day, at: '04:00 am', roles: [:app] do
-every 2.minutes, roles: [:app] do
+every 1.day, at: '04:00 am', roles: [:app] do
   # Caso o prazo de assinatura do contrato expirar, verifica se há outra proposta 
   # de outro fornecedor e "reinicia o processo da licitação" ou encerra a licitação 
   # e cria uma nova como rascunho
@@ -56,8 +49,7 @@ every 2.minutes, roles: [:app] do
 end
 
 # Status changes
-# every 1.day, at: '08:00 am', roles: [:app] do
-every 5.minutes, roles: [:app] do
+every 1.day, at: '08:00 am', roles: [:app] do
   runner "Bidding::ApprovedToOngoingWorker.perform_async"
 end
 

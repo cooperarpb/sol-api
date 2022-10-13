@@ -39,11 +39,6 @@ module ApiBlockchain
       @base_path ||= Rails.application.secrets.dig(:blockchain, :hyperledger_path)
     end
 
-    # XXX: Utilizar o payload após bc-bahia após alterações na API REST da nova blockchain
-    # def payload
-    #   @payload ||= { id: 'sdc-bahia' }
-    # end
-
     def mount_response(response)
       ApiBlockchain::Response.new(status: response.status, body: response.body, verb: verb(response))
     end
