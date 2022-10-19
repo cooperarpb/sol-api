@@ -17,7 +17,7 @@ RSpec.shared_examples 'services/concerns/clone' do |status|
   end
 
   describe '.call' do
-    let(:worker) { Bidding::Minute::AddendumPdfGenerateWorker }
+    let(:worker) { status&.dig(:worker) || Bidding::Minute::AddendumPdfGenerateWorker }
     let(:report_worker) { Bidding::SpreadsheetReportGenerateWorker }
 
     subject(:service_call) { service.call }

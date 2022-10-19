@@ -2,6 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Proposal, type: :model do
 
+  describe 'constants' do
+    let(:expected_statuses) do
+      %i[failure draft abandoned coop_refused refused coop_accepted accepted sent draw]
+    end
+    it { expect(described_class::IGNORED_PROPOSAL_STATUSES_FOR_LOT_ATTACHMENTS).to eq(expected_statuses) } 
+  end
+
   describe 'enums' do
     let(:expected_status) do
       {

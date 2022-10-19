@@ -12,12 +12,13 @@ RSpec.describe ContractsService::Clone::UnsignedBySupplier, type: :service do
   context 'when the bidding type is global' do
     include_examples 'services/concerns/clone', contract_status: :unsigned_by_supplier,
                                                 init_contract_status: :waiting_signature,
-                                                send_global_notification: false
+                                                send_global_notification: false,
+                                                worker: Bidding::Minute::AddendumUnsignedBySupplierPdfGenerateWorker
   end
 
   context 'when the bidding type are lots' do
     describe '.call' do
-      let(:worker) { Bidding::Minute::AddendumPdfGenerateWorker }
+      let(:worker) { Bidding::Minute::AddendumUnsignedBySupplierPdfGenerateWorker }
 
       include_examples 'services/concerns/init_contract_lot', contract_status: :waiting_signature
 
