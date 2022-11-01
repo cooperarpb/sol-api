@@ -36,7 +36,7 @@ module BiddingsService
 
     def lots_include_valid_statuses?
       bidding.lots.map(&:status).all? do |status|
-        ['accepted', 'desert', 'failure'].include?(status)
+        ['accepted', 'desert', 'failure', 'canceled'].include?(status)
       end
     end
 

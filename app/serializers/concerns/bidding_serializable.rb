@@ -90,7 +90,7 @@ module BiddingSerializable
   end
 
   def allowed_to_finish?
-    ( object.lots.pluck(:status) - ["accepted", "desert", "failure"]).empty?
+    ( object.lots.pluck(:status) - ["accepted", "desert", "failure", "canceled"]).empty?
   end
 
   def event_resource
