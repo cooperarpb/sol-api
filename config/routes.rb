@@ -164,7 +164,7 @@ Rails.application.routes.draw do
       end
 
       resources :contracts, module: 'biddings', only: [:index, :show]
-      resource :regenerate_failure_minutes, module: 'biddings', only: [:update]
+      resource :regenerate_minutes, module: 'biddings', only: [:update]
     end
 
     resources :covenants, except: [:new, :edit] do

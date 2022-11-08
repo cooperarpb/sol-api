@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Administrator::Biddings::RegenerateFailureMinutesController, type: :controller do
+RSpec.describe Administrator::Biddings::RegenerateMinutesController, type: :controller do
   let!(:bidding) { create(:bidding) }
   let(:user) { create(:admin) }
 
@@ -29,6 +29,20 @@ RSpec.describe Administrator::Biddings::RegenerateFailureMinutesController, type
 
       context 'when bidding has failure status' do
         let!(:bidding) { create(:bidding, status: :failure) }
+
+        it { expect(response).to have_http_status :ok }
+        it { expect(Bidding::Minute::PdfRegenerateWorker).to have_received(:perform_async).with(bidding.id) }
+      end
+
+      context 'when bidding has desert status' do
+        let!(:bidding) { create(:bidding, status: :desert) }
+
+        it { expect(response).to have_http_status :ok }
+        it { expect(Bidding::Minute::PdfRegenerateWorker).to have_received(:perform_async).with(bidding.id) }
+      end
+
+      context 'when bidding has finnished status' do
+        let!(:bidding) { create(:bidding, status: :finnished) }
 
         it { expect(response).to have_http_status :ok }
         it { expect(Bidding::Minute::PdfRegenerateWorker).to have_received(:perform_async).with(bidding.id) }
