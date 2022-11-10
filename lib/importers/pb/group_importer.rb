@@ -53,7 +53,10 @@ module Importers
         formatted_estimated_cost = estimated_cost.sub(".","")
         formatted_estimated_cost = formatted_estimated_cost.sub(",",".")
 
-        group_item.quantity       = resource[:quantity]
+        quantity = resource[:quantity]
+        formatted_quantity = quantity.sub(".","")
+
+        group_item.quantity       = formatted_quantity
         group_item.estimated_cost = formatted_estimated_cost.to_f
 
         group_item.save! if group_item.persisted?
