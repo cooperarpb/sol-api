@@ -1,0 +1,43 @@
+CONVENIO_NUMERO|GRUPO_NOME|ITEM_CODIGO|ITEM_TITULO|ITEM_DESCRICAO|ITEM_QUANTIDADE|ITEM_CUSTO_ESTIMADO|ITEM_CODIGO_CLASSIFICACAO|ITEM_UNIDADE
+01/22|Equipamentos|1130016|Câmara Frigorífica|Unidade Compacta de Resfriamento|1| 380.000,00 |113|und
+01/22|Obras|2000002|Construção |Construção de Galpão |1| 49.839,40 |200|und
+02/22|Veículo|1130026|Despolpadeira|Despolpadeira 6,5 Ton|1| 68.000,00 |113|und
+02/22|Equipamento|1130027|Câmara Fria|Câmara Fria com capacidade 100 Toneladas|1| 85.000,00 |113|und
+02/22|Equipamento|1130028|Caixas Plásticas|Caixas Plásticas|1| 9.900,00 |113|und
+02/22|Energia Solar|1020001|Energia solar|Adquirir e implantar sistema de energia solar|1| 70.000,00 |102|und
+02/22|Obras|2000001|Construção |Construção de Unidade de Demonstração e Venda de produtos (250 m²)|1| 315.770,00 |200|und
+02/22|Projeto|3150001|Projeto|Projeto Arquitetônico|1| 10.000,00 |315|und
+02/22|Serviço|3020001|Capacitação|Capacitação em Vendas|1| 3.000,00 |302|und
+04/22|Veículo|1150001|Veículo|Veículo Utilitário pickup|1| 72.000,00 |115|und
+04/22|Equipamento|1130025|Câmara Fria|Câmara Fria com capacidade 30 Toneladas|1| 70.000,00 |113|und
+04/22|Equipamento|1020001|Energia Solar|Adquirir e implantar sistema de energia solar|1| 300.000,00 |102|und
+05/22|Veículo|1140001|Caminhão 7400 kg|Caminhão com capacidade para 7400 Kg|1| 325.000,00 |114|und
+05/22|Implemento Rodoviário|1190001|Tanque Rodoviário Isotérmico|Tanque Rodoviário Isotérmico|1| 48.000,00 |119|und
+05/22|Equipamentos|1130001|Conjunto Pasteurização a placas|Conjunto Pasteurização a placas|1| 109.495,00 |113|und
+05/22|Equipamentos|1130002|Torre de Resfriamento|Torre de Resfriamento|1| 6.190,00 |113|und
+05/22|Equipamentos|1130003|Embaladeira Automática|Embaladeira Automática|1| 45.711,00 |113|und
+05/22|Equipamentos|1130004|"Envasadora ""Chupetinha"""|"Envasadora ""Chupetinha"""|1| 34.983,00 |113|und
+05/22|Equipamentos|1130005|Lava Botas - Modelo Automático|Lava Botas - Modelo Automático|1| 7.188,00 |113|und
+05/22|Equipamentos|1130006|Pia com Coluna em Inox|Pia com Coluna em Inox|1| 3.554,00 |113|und
+05/22|Equipamentos|1130007|Bomba de transferência|Bomba de transferência, tipo centrífuga, vazão 6.000 l/h|1| 8.782,00 |113|und
+05/22|Equipamentos|1130008|Tanque para Fabricação de queijo|Tanque para fabricação de queijo, retangular, inox AISI 304|1| 21.900,00 |113|und
+05/22|Equipamentos|1130009|Tanque de Processo|Tanque de Processo: Ferramenta para iogurte, bebida láctea, maturação de creme e cosméticos|1| 24.017,00 |113|und
+05/22|Equipamentos|1130010|Bomba Deslocamento NM 20|Bomba Deslocamento NM 21|1| 9.921,00 |113|und
+05/22|Equipamentos|1130011|Conjunto Placas Pré Prensagem|Conjunto Placas Pré Prensagem, pressão até 12kg/cm²|1| 2.499,00 |113|und
+05/22|Equipamentos|1130012|Par Lira Aço Inox|Par Lira Aço Inox|1| 1.042,00 |113|und
+05/22|Equipamentos|1130013|Mesa de Manipulação Inox|Mesa de Manipulação Inox AISI 304, abas superiores tipo U invertido|1| 4.342,00 |113|und
+05/22|Equipamentos|1130014|Separadora Centrífuga|Separadora Centrífuga|1| 58.000,00 |113|und
+05/22|Equipamentos|1130015|Dosadora e Seladora Garrafa|Dosadora e Seladora Garrafa|1| 60.517,00 |113|und
+06/22|Veículo|1150001|Veículo Utilitário|Veículo Utilitário pickup|1| 95.037,96 |115|und
+06/22|Colmeia|1130017|Colmeia|Colmeias de 02 Melgueiras|500| 185.000,00 |113|und
+06/22|Embalagens|1130018|Bisnaga 300gr|Embalagem tipo Bisnaga 300gr conforme especificações|6.000| 7.680,00 |113|und
+06/22|Embalagens|1130019|Bisnaga 500gr|Embalagem tipo Bisnaga 500gr conforme especificações|6.000| 9.300,00 |113|und
+06/22|Embalagens|1130020|Rótulo para Bisnaga 300gr|Rótulo para embalagem bisnaga 300gr conforme especificações|12.000| 9.600,00 |113|und
+06/22|Embalagens|1130021|Rótulo para Bisnaga 500gr|Rótulo para embalagem bisnaga 500gr conforme especificações|12.000| 12.000,00 |113|und
+06/22|Equipamentos|1130022|Refratômetro|Refratômetro Digital de Leituras|1| 1.300,00 |113|und
+06/22|Equipamentos|1130023|Medidor PH|Medidor de PH Temperatura de bancada|1| 3.293,00 |113|und
+06/22|Equipamentos|1130024|Analisador Mel|Medidor Fotômetro para análise da cor do mel|1| 2.430,00 |113|und
+06/22|Laboratório|1130029|Solução PH 4.01|HI7004L - Solução de PH 4.01, 25 C, 500 ML|1| 101,00 |113|und
+06/22|Laboratório|1130030|Solução PH 7.01|HI7007L - PH 7.01 - Solução Buffer 25 C, 500ML|1| 101,00 |113|und
+06/22|Laboratório|1130031|Solução Armazenamento PH|HI70300L - Solução armazenamento para PH |1| 93,00 |113|und
+06/22|Laboratório|1130032|Solução Limpeza|HI7061L - Solução de Limpeza Geral, 500 ML para Eletrodos|1| 93,00 |113|und

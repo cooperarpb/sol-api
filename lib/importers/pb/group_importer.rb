@@ -49,8 +49,12 @@ module Importers
           group_item.available_quantity = resource[:quantity].to_i - (group_item.quantity - group_item.available_quantity)
         end
 
+        estimated_cost           = resource[:estimated_cost]
+        formatted_estimated_cost = estimated_cost.sub(".","")
+        formatted_estimated_cost = formatted_estimated_cost.sub(",",".")
+
         group_item.quantity       = resource[:quantity]
-        group_item.estimated_cost = resource[:estimated_cost]
+        group_item.estimated_cost = formatted_estimated_cost.to_f
 
         group_item.save! if group_item.persisted?
       end
