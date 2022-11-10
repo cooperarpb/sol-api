@@ -58,7 +58,7 @@ module Importers
       end
 
       def unit_formated
-        @unit_formated ||= squish(resource.fetch(:unit, '')).downcase.strip.capitalize
+        @unit_formated ||= squish(resource.fetch(:unit, '')).downcase.strip
       end
 
     end
