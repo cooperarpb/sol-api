@@ -204,6 +204,7 @@ Rails.application.routes.draw do
       resource :reprove, module: 'biddings', only: [:update]
       resource :review, module: 'biddings', only: [:update]
       resource :force_review, module: 'biddings', only: [:update]
+      resource :fail, module: 'biddings', only: [:update]
     end
 
     resources :providers, except: [:new, :edit] do
