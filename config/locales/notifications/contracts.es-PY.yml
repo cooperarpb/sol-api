@@ -13,10 +13,22 @@
       sign_admin_user:
         title: Contrato firmado por el proveedor.
         body: El contrato <strong>%s</strong> de la licitación <strong>%s</strong> ha sido firmado por el proveedor <strong>%s</strong>
-      
+
+      supplier_signature_close_to_deadline:
+        title: ¡La fecha límite está cerca!
+        body: El plazo para firmar el contrato número <strong>%s</strong> finaliza <strong>mañana</strong>.
+
+      supplier_signature_last_day_of_deadline:
+        title: ¡La fecha límite termina hoy!
+        body: El plazo para firmar el contrato número <strong>%s</strong> finaliza <strong>hoy</strong>.
+
       total_inexecution:
         title: Contrato con falta de ejecución total.
         body: El contrato <strong>%s</strong> de la licitación <strong>%s</strong> ha sido marcado con falta de ejecución total.
+
+      unsigned_by_supplier:
+        title: Contrato no firmado por los proveedores.
+        body: El contrato <strong>%s</strong> para la licitación <strong>%s</strong> no ha sido firmado por los proveedores hasta la fecha límite de firma.
 
       completed:
         title: Contrato finalizado.
@@ -28,4 +40,4 @@
 
       created:
         title: Contrato creado.
-        body: Nuevo contrato <strong>%s</strong> ha sido generado, haga clic aquí para obtener más detalles.
+        body: Plazo de hasta <strong>%s días</strong> para firmar el contrato <strong>%s</strong>. Haga clic aquí para obtener más detalles.

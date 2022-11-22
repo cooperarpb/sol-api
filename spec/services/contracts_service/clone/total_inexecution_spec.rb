@@ -1,16 +1,30 @@
 require 'rails_helper'
 
 RSpec.describe ContractsService::Clone::TotalInexecution, type: :service do
+  let(:permitted_params) do
+    [:id, :inexecution_reason]
+  end
+
+  let(:params) do
+    { contract: { id: contract.id, inexecution_reason: 'Motivo' } }
+  end
+
+  let(:contract_params) do
+    ActionController::Parameters.
+      new(params).require(:contract).permit(permitted_params)
+  end
+  
   before do
     allow(Notifications::Contracts::TotalInexecution).
       to receive(:call).with(contract: contract).and_return(true)
     allow(Blockchain::Contract::Update).to receive(:call!).and_return(true)
   end
 
-  subject(:service_call) { described_class.call(contract: contract) }
+  subject(:service_call) { described_class.call(contract: contract, contract_params: contract_params) }
 
   context 'when the bidding type is global' do
-    include_examples 'services/concerns/clone', contract_status: :total_inexecution
+    include_examples 'services/concerns/clone', contract_status: :total_inexecution,
+                                                send_global_notification: true
   end
 
   context 'when the bidding type are lots' do
@@ -97,5 +111,21 @@ RSpec.describe ContractsService::Clone::TotalInexecution, type: :service do
     end
 
     it { is_expected.to be_falsy }
+  end
+
+  context 'when contract_params is present' do
+    include_examples 'services/concerns/init_contract'
+
+    subject(:service_call) { described_class.call(contract: contract, contract_params: contract_params) }
+
+    before do
+      allow(Bidding::Minute::AddendumInexecutionReasonPdfGenerateWorker).to receive(:perform_async).with(contract.id)
+      service_call
+
+      contract.reload
+    end
+
+    it { expect(contract.inexecution_reason).to eq('Motivo') }
+    it { expect(Bidding::Minute::AddendumInexecutionReasonPdfGenerateWorker).to have_received(:perform_async).with(contract.id) }
   end
 end

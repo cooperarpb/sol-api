@@ -14,7 +14,7 @@ RSpec.describe BiddingsService::CancellationRequests::Approve, type: :service do
 
   before do
     allow(BiddingsService::Cancel).
-      to receive(:call!).with(bidding: bidding).and_return(true)
+      to receive(:call!).with(bidding: bidding, send_notification: true).and_return(true)
   end
 
   describe '#initialize' do
@@ -39,7 +39,7 @@ RSpec.describe BiddingsService::CancellationRequests::Approve, type: :service do
       it { expect(event.status).to eq 'approved' }
       it do
         expect(BiddingsService::Cancel).
-          to have_received(:call!).with(bidding: bidding)
+          to have_received(:call!).with(bidding: bidding, send_notification: true)
       end
     end
 
@@ -65,7 +65,7 @@ RSpec.describe BiddingsService::CancellationRequests::Approve, type: :service do
       context 'and cancel bidding has errors' do
         before do
           allow(BiddingsService::Cancel).
-            to receive(:call!).with(bidding: bidding).
+            to receive(:call!).with(bidding: bidding, send_notification: true).
             and_raise(ActiveRecord::RecordInvalid)
 
           subject

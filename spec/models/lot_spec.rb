@@ -30,7 +30,9 @@ RSpec.describe Lot, type: :model do
     it { is_expected.to have_many(:proposals).through(:lot_proposals) }
     it { is_expected.to have_many(:group_items).through(:lot_group_items) }
     it { is_expected.to have_many(:lot_proposal_imports).dependent(:destroy) }
+    it { is_expected.to have_many(:lot_attachments).dependent(:destroy) }
     it { is_expected.to have_many(:attachments).dependent(:destroy) }
+    it { is_expected.to have_many(:lot_questions).dependent(:destroy) }
   end
 
   describe 'validations' do

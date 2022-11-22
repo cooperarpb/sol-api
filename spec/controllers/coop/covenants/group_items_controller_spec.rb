@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Coop::Covenants::GroupItemsController, type: :controller do
-  let(:serializer) { Administrator::GroupItemSerializer }
+  let(:serializer) { Coop::GroupItemSerializer }
   let(:covenant) { create(:covenant) }
   let(:cooperative) { covenant.cooperative }
   let(:user) { create(:user, cooperative: cooperative) }
@@ -56,7 +56,7 @@ RSpec.describe Coop::Covenants::GroupItemsController, type: :controller do
 
       describe 'JSON' do
         let(:json) { JSON.parse(response.body) }
-        let(:expected_json) { group_items.map { |group_item| format_json(serializer, group_item) } }
+        let(:expected_json) { group_items.map { |group_item| format_json(serializer, group_item, scope: { covenant: covenant }) } }
 
         it { expect(json).to eq expected_json }
       end

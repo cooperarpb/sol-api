@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_23_212351) do
+ActiveRecord::Schema.define(version: 2022_05_03_185313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,15 @@ ActiveRecord::Schema.define(version: 2021_03_23_212351) do
     t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable_type_and_attachable_id"
   end
 
+  create_table "bidding_classifications", force: :cascade do |t|
+    t.bigint "bidding_id"
+    t.bigint "classification_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bidding_id"], name: "index_bidding_classifications_on_bidding_id"
+    t.index ["classification_id"], name: "index_bidding_classifications_on_classification_id"
+  end
+
   create_table "biddings", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -100,12 +109,21 @@ ActiveRecord::Schema.define(version: 2021_03_23_212351) do
     t.string "proposal_import_file"
     t.bigint "reopen_reason_contract_id"
     t.bigint "spreadsheet_report_id"
+    t.bigint "merged_inexecution_reason_document_id"
     t.index ["classification_id"], name: "index_biddings_on_classification_id"
     t.index ["covenant_id"], name: "index_biddings_on_covenant_id"
     t.index ["edict_document_id"], name: "index_biddings_on_edict_document_id"
+    t.index ["merged_inexecution_reason_document_id"], name: "index_biddings_on_merged_inexecution_reason_document_id"
     t.index ["merged_minute_document_id"], name: "index_biddings_on_merged_minute_document_id"
     t.index ["reopen_reason_contract_id"], name: "index_biddings_on_reopen_reason_contract_id"
     t.index ["spreadsheet_report_id"], name: "index_biddings_on_spreadsheet_report_id"
+  end
+
+  create_table "biddings_and_inexecution_reason_documents", force: :cascade do |t|
+    t.bigint "bidding_id"
+    t.bigint "inexecution_reason_document_id"
+    t.index ["bidding_id"], name: "index_biddings_and_inexecution_reason_documents_on_bidding_id"
+    t.index ["inexecution_reason_document_id"], name: "index_baird_on_inexecution_reason_document_id"
   end
 
   create_table "biddings_and_minute_documents", id: false, force: :cascade do |t|
@@ -149,6 +167,7 @@ ActiveRecord::Schema.define(version: 2021_03_23_212351) do
     t.bigint "document_id"
     t.integer "deadline"
     t.string "title"
+    t.text "inexecution_reason"
     t.index ["document_id"], name: "index_contracts_on_document_id"
     t.index ["proposal_id"], name: "index_contracts_on_proposal_id"
     t.index ["supplier_id"], name: "index_contracts_on_supplier_id"
@@ -228,6 +247,12 @@ ActiveRecord::Schema.define(version: 2021_03_23_212351) do
     t.index ["covenant_id"], name: "index_groups_on_covenant_id"
   end
 
+  create_table "inexecution_reason_documents", force: :cascade do |t|
+    t.string "file"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "integration_configurations", force: :cascade do |t|
     t.string "type"
     t.string "endpoint_url"
@@ -279,6 +304,16 @@ ActiveRecord::Schema.define(version: 2021_03_23_212351) do
     t.index ["representable_type", "representable_id"], name: "index_legal_reps_on_representable_type_and_representable_id"
   end
 
+  create_table "lot_attachments", force: :cascade do |t|
+    t.bigint "lot_id"
+    t.bigint "supplier_id"
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lot_id"], name: "index_lot_attachments_on_lot_id"
+    t.index ["supplier_id"], name: "index_lot_attachments_on_supplier_id"
+  end
+
   create_table "lot_group_item_lot_proposals", force: :cascade do |t|
     t.bigint "lot_group_item_id"
     t.bigint "lot_proposal_id"
@@ -328,6 +363,19 @@ ActiveRecord::Schema.define(version: 2021_03_23_212351) do
     t.index ["lot_id"], name: "index_lot_proposals_on_lot_id"
     t.index ["proposal_id"], name: "index_lot_proposals_on_proposal_id"
     t.index ["supplier_id"], name: "index_lot_proposals_on_supplier_id"
+  end
+
+  create_table "lot_questions", force: :cascade do |t|
+    t.bigint "lot_id"
+    t.bigint "supplier_id"
+    t.bigint "user_id"
+    t.text "question"
+    t.text "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lot_id"], name: "index_lot_questions_on_lot_id"
+    t.index ["supplier_id"], name: "index_lot_questions_on_supplier_id"
+    t.index ["user_id"], name: "index_lot_questions_on_user_id"
   end
 
   create_table "lots", force: :cascade do |t|
@@ -562,12 +610,17 @@ ActiveRecord::Schema.define(version: 2021_03_23_212351) do
 
   add_foreign_key "additives", "biddings"
   add_foreign_key "addresses", "cities"
+  add_foreign_key "bidding_classifications", "biddings"
+  add_foreign_key "bidding_classifications", "classifications"
   add_foreign_key "biddings", "classifications"
   add_foreign_key "biddings", "contracts", column: "reopen_reason_contract_id"
   add_foreign_key "biddings", "covenants"
   add_foreign_key "biddings", "documents", column: "edict_document_id"
   add_foreign_key "biddings", "documents", column: "merged_minute_document_id"
   add_foreign_key "biddings", "documents", column: "spreadsheet_report_id"
+  add_foreign_key "biddings", "inexecution_reason_documents", column: "merged_inexecution_reason_document_id"
+  add_foreign_key "biddings_and_inexecution_reason_documents", "biddings"
+  add_foreign_key "biddings_and_inexecution_reason_documents", "inexecution_reason_documents"
   add_foreign_key "biddings_and_minute_documents", "biddings"
   add_foreign_key "biddings_and_minute_documents", "documents", column: "minute_document_id"
   add_foreign_key "cities", "states"
@@ -585,6 +638,8 @@ ActiveRecord::Schema.define(version: 2021_03_23_212351) do
   add_foreign_key "invites", "biddings"
   add_foreign_key "invites", "providers"
   add_foreign_key "items", "classifications"
+  add_foreign_key "lot_attachments", "lots"
+  add_foreign_key "lot_attachments", "suppliers"
   add_foreign_key "lot_group_item_lot_proposals", "lot_group_items"
   add_foreign_key "lot_group_item_lot_proposals", "lot_proposals"
   add_foreign_key "lot_group_items", "group_items"
@@ -594,6 +649,9 @@ ActiveRecord::Schema.define(version: 2021_03_23_212351) do
   add_foreign_key "lot_proposal_imports", "providers"
   add_foreign_key "lot_proposals", "lots"
   add_foreign_key "lot_proposals", "suppliers"
+  add_foreign_key "lot_questions", "lots"
+  add_foreign_key "lot_questions", "suppliers"
+  add_foreign_key "lot_questions", "users"
   add_foreign_key "lots", "biddings"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"

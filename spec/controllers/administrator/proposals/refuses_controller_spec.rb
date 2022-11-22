@@ -30,17 +30,28 @@ RSpec.describe Administrator::Proposals::RefusesController, type: :controller do
     end
 
     describe 'JSON' do
-      before { post_update }
-
+      
       context 'when updated' do
+        before do
+          # XXX: Força todas as propostas da licitação não estarem recisadas para testar
+          # o fluxo sem a chamada do bidding_failure_service
+          allow_any_instance_of(Bidding).to receive(:fully_refused_proposals?).and_return(false) 
+
+          post_update
+        end
+
         it { expect(response).to have_http_status :ok }
       end
 
       context 'when not updated' do
+        before { post_update }
+
         let(:service_response) { false }
 
         it { expect(response).to have_http_status :unprocessable_entity }
       end
+
+      it_behaves_like "controllers/concerns/base_refuses_controller"
     end
   end
 end

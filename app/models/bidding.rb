@@ -31,10 +31,19 @@ class Bidding < ApplicationRecord
                                       foreign_key: :merged_minute_document_id,
                                       optional: true
 
+  belongs_to :merged_inexecution_reason_document, class_name: 'InexecutionReasonDocument',
+                                      foreign_key: :merged_inexecution_reason_document_id,
+                                      optional: true
+                                      
   has_and_belongs_to_many :minute_documents, class_name: 'Document',
                                              foreign_key: :bidding_id,
                                              association_foreign_key: :minute_document_id,
                                              join_table: 'biddings_and_minute_documents'
+
+  has_and_belongs_to_many :inexecution_reason_documents, class_name: 'InexecutionReasonDocument',
+                                             foreign_key: :bidding_id,
+                                             association_foreign_key: :inexecution_reason_document_id,
+                                             join_table: 'biddings_and_inexecution_reason_documents'
 
   belongs_to :edict_document, class_name: 'Document',
                               foreign_key: :edict_document_id,
@@ -73,7 +82,16 @@ class Bidding < ApplicationRecord
            class_name: 'Events::BiddingFailure', foreign_key: :eventable_id,
            dependent: :destroy
 
+  has_many :bidding_classifications,
+           class_name: 'BiddingClassification',
+           dependent: :destroy
+
+  has_many :classifications,
+           through: :bidding_classifications,
+           class_name: 'Classification'
+
   accepts_nested_attributes_for :invites, allow_destroy: true
+  accepts_nested_attributes_for :bidding_classifications, allow_destroy: true, reject_if: :all_blank
 
   validates :covenant,
             :description,
@@ -146,13 +164,17 @@ class Bidding < ApplicationRecord
     proposals.
       joins(:lot_proposals).
       where(
-        status: %i[sent accepted refused],
+        status: %i[sent accepted],
         lot_proposals: { lot_id: lot_ids }
       )
   end
 
   def proposals_not_draft_or_abandoned
     proposals.not_draft_or_abandoned
+  end
+
+  def fully_refused_proposals?
+    proposals.all?(&:refused?)
   end
 
   def fully_failed_lots?

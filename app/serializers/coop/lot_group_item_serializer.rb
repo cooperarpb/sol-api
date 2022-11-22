@@ -2,7 +2,7 @@ module Coop
   class LotGroupItemSerializer < ActiveModel::Serializer
     attributes :id, :lot_id, :group_item_id, :item_short_name,
                 :item_name, :item_unit, :quantity, :current_quantity, :total_quantity,
-                :available_quantity, :lot_group_item_count, :_destroy, :lot_name, :group_id
+                :available_quantity, :lot_group_item_count, :_destroy, :lot_name, :item_id, :group_id
 
     def quantity
       object.quantity.to_f
@@ -14,6 +14,10 @@ module Coop
 
     def lot_group_item_count
       object.bidding.lots.joins(:group_items).where(group_items: { item_id: object.group_item.item_id }).uniq.count
+    end
+
+    def item_id
+      object.group_item.item.id
     end
 
     def item_name

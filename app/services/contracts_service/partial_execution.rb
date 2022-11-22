@@ -4,20 +4,23 @@ module ContractsService
     include Call::Methods
 
     def main_method
+      generate_inexecution_reason_addendum if completed
       completed
     end
 
     private
 
     def completed
-      return false unless contract.signed?
+      @completed ||= begin
+        return false unless contract.signed?
 
-      execute_or_rollback do
-        contract.partial_execution!
-        update!
-        recalculate_available_quantity!
-        update_contract_blockchain!
-        notify
+        execute_or_rollback do
+          contract.partial_execution!
+          update!
+          recalculate_available_quantity!
+          update_contract_blockchain!
+          notify
+        end
       end
     end
 
@@ -35,6 +38,10 @@ module ContractsService
 
     def notify
       Notifications::Contracts::PartialExecution.call(contract: contract)
+    end
+
+    def generate_inexecution_reason_addendum
+      Bidding::Minute::AddendumInexecutionReasonPdfGenerateWorker.perform_async(contract.id)
     end
   end
 end

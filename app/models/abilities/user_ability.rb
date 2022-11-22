@@ -9,7 +9,7 @@ module Abilities
 
       can :manage, Provider
       can :manage, Additive, bidding_ongoing_rule
-      can :manage, [Bidding, Covenant], cooperative_rule
+      can :manage, [Bidding, Covenant, BiddingClassification], cooperative_rule
       can :manage, Contract, user_rule
       can :manage, [LotGroupItem, Proposal, Lot, Invite], bidding_rule
       can :manage, LotProposal, lot_rule
@@ -18,6 +18,8 @@ module Abilities
       can :manage, Notification, notification_rule
       can :manage, User, basic_rule
       can :mark_as_read, Notification
+      can :manage, LotQuestion
+      can :manage, LotAttachment
     end
 
     private

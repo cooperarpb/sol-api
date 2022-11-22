@@ -62,6 +62,32 @@ RSpec.describe Administrator::BiddingsController, type: :controller do
         it { expect(json).to match_array expected_json }
       end
     end
+
+    context 'when request has no status parameter' do
+      let(:exposed_biddings) { Bidding.all }
+      let(:params) { { status: '' } }
+
+      before { get :index, params: params, xhr: true }
+
+      subject { JSON.parse(response.body).count }
+
+      it { is_expected.to eq(exposed_biddings.count) }
+    end
+
+    context 'when request has some status parameter' do
+      Bidding.statuses.keys.each do |status|
+        let(:"bidding_with_status_#{status}") do
+          create(:bidding, status: status.to_sym, covenant: covenant)
+        end
+      end
+      let(:params) { { status: Bidding.statuses.keys.sample } }
+
+      before { get :index, params: params, xhr: true }
+
+      subject { JSON.parse(response.body).collect { |b| b['status'] } }
+
+      it { is_expected.to all(include("#{params[:status]}")) }
+    end
   end
 
   describe '#show' do

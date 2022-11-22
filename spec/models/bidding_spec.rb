@@ -35,6 +35,7 @@ RSpec.describe Bidding, type: :model do
     it { is_expected.to belong_to :covenant }
     it { is_expected.to belong_to :classification }
     it { is_expected.to belong_to(:merged_minute_document).class_name(Document).optional }
+    it { is_expected.to belong_to(:merged_inexecution_reason_document).class_name(InexecutionReasonDocument).optional }
     it { is_expected.to belong_to(:edict_document).class_name(Document).optional }
     it { is_expected.to belong_to(:spreadsheet_report).class_name(SpreadsheetDocument).optional }
     it { is_expected.to belong_to(:reopen_reason_contract).class_name(Contract).optional }
@@ -43,6 +44,7 @@ RSpec.describe Bidding, type: :model do
     it { is_expected.to have_one(:admin).through(:covenant) }
 
     it { is_expected.to have_and_belong_to_many(:minute_documents).class_name(Document) }
+    it { is_expected.to have_and_belong_to_many(:inexecution_reason_documents).class_name(InexecutionReasonDocument) }
 
     it { is_expected.to have_many(:lots).dependent(:destroy) }
     it { is_expected.to have_many(:lot_group_items).through(:lots) }
@@ -58,6 +60,8 @@ RSpec.describe Bidding, type: :model do
     it { is_expected.to have_many(:event_cancellation_requests).dependent(:destroy) }
     it { is_expected.to have_many(:event_bidding_reproveds).dependent(:destroy) }
     it { is_expected.to have_many(:event_bidding_failures).class_name(Events::BiddingFailure).dependent(:destroy) }
+    it { is_expected.to have_many(:bidding_classifications).class_name(BiddingClassification).dependent(:destroy) }
+    it { is_expected.to have_many(:classifications).through(:bidding_classifications) }
   end
 
   describe 'validations' do
@@ -356,6 +360,11 @@ RSpec.describe Bidding, type: :model do
     end
   end
 
+  describe 'nested_attributes' do
+    it { is_expected.to accept_nested_attributes_for(:invites) }
+    it { is_expected.to accept_nested_attributes_for(:bidding_classifications) }
+  end
+
   describe 'callbacks' do
     describe 'before_validation' do
       let(:bidding) { create(:bidding, status: :ongoing) }
@@ -605,7 +614,7 @@ RSpec.describe Bidding, type: :model do
         let!(:proposal_5) { create(:proposal, bidding: bidding, lot: lot_2, status: :sent) }
         let(:scope_params) { proposal_1.current_lot_ids }
 
-        it { is_expected.to match_array [proposal_2, proposal_3, proposal_4] }
+        it { is_expected.to match_array [proposal_2, proposal_3] }
       end
 
       context 'when the bidding kind is global' do
@@ -617,7 +626,7 @@ RSpec.describe Bidding, type: :model do
         let!(:proposal_5) { create(:proposal, bidding: bidding, status: :sent) }
         let(:scope_params) { bidding.lot_ids }
 
-        it { is_expected.to match_array [proposal_2, proposal_3, proposal_4, proposal_5] }
+        it { is_expected.to match_array [proposal_2, proposal_3, proposal_5] }
       end
     end
 
@@ -658,6 +667,32 @@ RSpec.describe Bidding, type: :model do
         end
 
         it { expect(bidding.proposals_not_draft_or_abandoned.size).to eq 3 }
+      end
+    end
+
+    describe '.fully_refused_proposals?' do
+      let!(:bidding)           { create(:bidding) }
+      let(:refused_proposal_1) { create(:proposal, bidding: bidding, status: :refused) }
+      let(:refused_proposal_2) { create(:proposal, bidding: bidding, status: :refused) }
+      let(:another_proposal)   { create(:proposal, bidding: bidding) }
+      
+      context 'when all biddings`s proposals have refused status' do
+        before do
+          bidding.proposals << refused_proposal_1
+          bidding.proposals << refused_proposal_2
+        end
+
+        it { expect(bidding.fully_refused_proposals?).to be_truthy }
+      end
+
+      context 'when not all biddings`s proposals have refused status' do
+        before do
+          bidding.proposals << refused_proposal_1
+          bidding.proposals << refused_proposal_2
+          bidding.proposals << another_proposal
+        end
+
+        it { expect(bidding.fully_refused_proposals?).to be_falsey }
       end
     end
 

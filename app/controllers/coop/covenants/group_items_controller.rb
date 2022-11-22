@@ -9,7 +9,7 @@ module Coop
     expose :group_item
 
     def index
-      render json: paginated_resources, each_serializer: Administrator::GroupItemSerializer
+      render json: paginated_resources, each_serializer: Coop::GroupItemSerializer, scope: { covenant: covenant }
     end
 
     private

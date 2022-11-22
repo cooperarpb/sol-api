@@ -1,0 +1,6 @@
+es-PY:
+  notifications:
+    lot_attachment:
+      sent:
+        title: Nuevo archivo adjunto para la licitación %s.
+        body: Hay un nuevo archivo adjunto para el lote <strong>%s</strong> de la licitación <strong>%s</strong>.

@@ -9,11 +9,11 @@ module Coop
     expose :group
 
     def index
-      render json: paginated_resources, each_serializer: Coop::GroupSerializer
+      render json: paginated_resources, each_serializer: Coop::GroupSerializer, scope: { covenant: nil }
     end
 
     def show
-      render json: resource, serializer: Coop::GroupSerializer
+      render json: resource, serializer: Coop::GroupSerializer, scope: { covenant: nil }
     end
 
     private

@@ -52,6 +52,10 @@ Rails.application.routes.draw do
       resources :lots, module: 'biddings', only: [:index, :show] do
         resources :lot_proposals, module: 'lots', only: [:index, :show, :create, :update, :destroy]
         resources :lot_proposal_imports, module: 'lots', only: [:show, :create]
+        resources :lot_questions, module: 'lots', only: [:index, :create]
+        resources :lot_attachments, module: 'lots', only: [:index, :create, :destroy] do
+          post :send_lot_attachment, on: :member
+        end
         get :download
       end
 
@@ -60,11 +64,14 @@ Rails.application.routes.draw do
       end
     end
 
-    patch 'profile', to: 'suppliers#profile'
+    patch 'profile', to: 'providers#profile'
+    get 'find_current_provider', to: 'providers#find_current_provider'
   end
 
   namespace :coop, path: 'cooperative', as: 'cooperative' do
     concerns :notifiable
+
+    get :headquarters, to: 'biddings#headquarters'
 
     resource :device_tokens, only: :create
     resource :dashboard, only: :show
@@ -98,6 +105,10 @@ Rails.application.routes.draw do
       resource :refinish, module: 'biddings', only: [:update]
       resources :lots, module: 'biddings' do
         resources :lot_proposals, module: 'lots', only: [:index, :show]
+        resources :lot_questions, module: 'lots', only: [:index, :show, :update]
+        resources :lot_attachments, module: 'lots', only: :index do
+          post :request_lot_attachment, on: :collection
+        end
       end
 
       resource :waiting, module: 'biddings', only: [:update]
@@ -153,6 +164,7 @@ Rails.application.routes.draw do
       end
 
       resources :contracts, module: 'biddings', only: [:index, :show]
+      resource :regenerate_failure_minutes, module: 'biddings', only: [:update]
     end
 
     resources :covenants, except: [:new, :edit] do
@@ -163,6 +175,7 @@ Rails.application.routes.draw do
 
         resources :lots, only: [:index], module: 'biddings' do
           resources :lot_proposals, module: 'lots', only: [:index]
+          resources :lot_questions, module: 'lots', only: [:index]
         end
       end
     end
@@ -186,7 +199,6 @@ Rails.application.routes.draw do
     end
 
     resources :biddings, only: [] do
-      resource :fail, module: 'biddings', only: [:update]
       resource :ongoing, module: 'biddings', only: [:update]
       resource :approve, module: 'biddings', only: [:update]
       resource :reprove, module: 'biddings', only: [:update]
@@ -209,6 +221,9 @@ Rails.application.routes.draw do
   namespace :search do
     resources :admins, only: :index
     resources :cities, only: :index
+    resources :states, only: :index do
+      resources :cities, module: 'states', only: :index
+    end
     resources :cooperatives, only: :index
     resources :classifications, only: :index
     resources :items, only: :index

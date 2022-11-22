@@ -39,5 +39,7 @@ RSpec.describe Notifications::Proposals::CoopAccepted, type: [:service, :notific
     end
 
     it_should_behave_like 'services/concerns/notifications/fcm'
+    
+    it_should_behave_like 'services/concerns/notifications/notification_mailer'
   end
 end

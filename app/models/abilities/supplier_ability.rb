@@ -23,6 +23,9 @@ module Abilities
         Policies::LotProposal::ReadPolicy.allowed?(lot_proposal, user)
       end
 
+      can [:index, :create], LotQuestion
+      can [:index, :create, :destroy, :send_lot_attachment], LotAttachment
+
       can :manage, Contract, contract_rule
       can :manage, Notification, notification_rule
 

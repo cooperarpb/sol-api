@@ -20,5 +20,8 @@ FactoryBot.define do
       association :addressable, factory: :legal_representative
     end
 
+    trait :without_street_name do
+      address '-'
+    end
   end
 end

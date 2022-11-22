@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ContractsService::SystemRefuse, type: :service do
   include_examples 'services/concerns/init_contract'
 
-  let(:created_at) { 5.days.ago }
+  let(:created_at) { 10.days.ago }
   let!(:contract) do
     create(:contract, proposal: proposal, user: user, created_at: created_at,
                       user_signed_at: DateTime.current)
@@ -30,7 +30,7 @@ RSpec.describe ContractsService::SystemRefuse, type: :service do
         contract.reload
       end
 
-      context 'and the contract was created 5 days ago' do
+      context 'and the contract was created 10 days ago' do
         context 'and the contract is signed' do
           let!(:contract) do
             create(:contract, proposal: proposal, user: user,
@@ -100,7 +100,7 @@ RSpec.describe ContractsService::SystemRefuse, type: :service do
         contract.reload
       end
 
-      context 'and the contract was created 5 days ago' do
+      context 'and the contract was created 10 days ago' do
         context 'and the contract is signed' do
           let!(:contract) do
             create(:contract, proposal: proposal, user: user,

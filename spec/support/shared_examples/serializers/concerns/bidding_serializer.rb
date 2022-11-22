@@ -1,9 +1,11 @@
 RSpec.shared_examples "a bidding_serializer" do
-  let(:merged_minute_document) { create(:document) }
-  let(:edict_document) { create(:document) }
+  let(:merged_minute_document)             { create(:document) }
+  let(:merged_inexecution_reason_document) { create(:inexecution_reason_document) }
+  let(:edict_document)                     { create(:document) }
   let(:object) do
     create :bidding, merged_minute_document: merged_minute_document,
-                     edict_document: edict_document
+                     edict_document: edict_document,
+                     merged_inexecution_reason_document: merged_inexecution_reason_document
   end
 
   subject { format_json(described_class, object) }
@@ -17,6 +19,7 @@ RSpec.shared_examples "a bidding_serializer" do
     let(:supp_can_see) { object.finnished? }
 
     let(:covenant_number_name) { "#{object.covenant.number} - #{object.covenant.name}" }
+    let(:admin_name)           { object.covenant.admin.name }
 
     it { is_expected.to include 'id' => object.id }
     it { is_expected.to include 'title' => object.title }
@@ -29,6 +32,7 @@ RSpec.shared_examples "a bidding_serializer" do
     it { is_expected.to include 'closing_date' => object.closing_date.to_s }
     it { is_expected.to include 'covenant_id' => object.covenant_id }
     it { is_expected.to include 'covenant_name' => covenant_number_name }
+    it { is_expected.to include 'admin_name' => admin_name }
     it { is_expected.to include 'address' => object.address }
     it { is_expected.to include 'can_finish' => can_finish }
     it { is_expected.to include 'supp_can_see' => supp_can_see }
@@ -42,6 +46,7 @@ RSpec.shared_examples "a bidding_serializer" do
     it { is_expected.to include 'position' => object.position }
     it { is_expected.to include 'proposal_import_file_url' => object.proposal_import_file&.url }
     it { expect(subject['minute_pdf']).to include('file.pdf')}
+    it { expect(subject['inexecution_reason_pdf']).to include('file.pdf')}
     it { expect(subject['edict_pdf']).to include('file.pdf')}
 
     describe 'cancel_comment' do

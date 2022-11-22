@@ -97,5 +97,7 @@ RSpec.describe Notifications::Contracts::Refused::User, type: [:service, :notifi
     end
 
     it_should_behave_like 'services/concerns/notifications/fcm', 2
+
+    it_should_behave_like 'services/concerns/notifications/notification_mailer', 1
   end
 end

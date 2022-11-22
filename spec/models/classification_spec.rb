@@ -5,6 +5,7 @@ RSpec.describe Classification, type: :model do
     it { is_expected.to belong_to(:classification).optional }
     it { is_expected.to have_many :items }
     it { is_expected.to have_many(:classifications).dependent(:destroy) }
+    it { is_expected.to have_many(:bidding_classifications).dependent(:destroy) }
   end
 
   describe 'validations' do

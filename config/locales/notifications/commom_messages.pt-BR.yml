@@ -1,0 +1,5 @@
+pt-BR:
+  notifications:
+    common_messages:
+      body_error: >
+        Houve um erro ao exibir a mensagem da notificação.

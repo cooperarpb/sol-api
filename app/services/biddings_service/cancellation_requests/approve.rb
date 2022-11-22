@@ -28,7 +28,7 @@ module BiddingsService::CancellationRequests
     end
 
     def cancel_bidding!
-      BiddingsService::Cancel.call!(bidding: bidding)
+      BiddingsService::Cancel.call!(bidding: bidding, send_notification: true)
     end
   end
 end
