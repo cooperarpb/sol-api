@@ -146,5 +146,102 @@ namespace :pb do
         end
       end
     end
+
+    # Importador de Fornecedores
+    # XXX: O SOL PB solicitou a importação dos dados dos fornecedores
+    # do SOL BA, após permissão da equipe da CAR-BA.
+    task suppliers: :environment do |task|
+      file = ENV['FILE']
+
+      raise ArgumentError, 'O parâmetro FILE está em branco' unless file.present? && File.file?(file)
+
+      def find_city_id(city_id)
+        city_id_integer = city_id.to_i
+
+        city_id_integer > 3540 ? city_id_integer + 1 : city_id_integer
+      end
+
+      CSV.foreach(file, headers: false, col_sep: '|') do |row|
+        @last_imported_provider ||= nil
+
+        if row[0] == "PROVIDER"
+          @last_imported_provider = nil
+
+          provider_attributes                     = eval row[1]
+          provider_address_attributes             = eval row[2]
+          legal_representative_attributes         = eval row[3]
+          legal_representative_address_attributes = eval row[4]
+          classification_codes                    = row[5].split(',')
+
+          new_provider            = Provider.new
+          new_provider.attributes = provider_attributes
+
+          new_provider_address             = Address.new
+          new_provider_address.attributes  = provider_address_attributes
+          new_provider_address.city_id     = find_city_id(new_provider_address.city_id)
+          new_provider_address.addressable = new_provider
+
+          new_provider_address.latitude  = 0 if new_provider_address.latitude.nil?
+          new_provider_address.longitude = 0 if new_provider_address.longitude.nil?
+
+          new_legal_representative            = LegalRepresentative.new
+          new_legal_representative.attributes = legal_representative_attributes
+
+          new_legal_representative_address             = Address.new
+          new_legal_representative_address.attributes  = legal_representative_address_attributes
+          new_legal_representative_address.city_id     = find_city_id(new_legal_representative_address.city_id)
+          new_legal_representative_address.addressable = new_legal_representative
+          
+          new_legal_representative_address.latitude  = 0 if new_legal_representative_address.latitude.nil?
+          new_legal_representative_address.longitude = 0 if new_legal_representative_address.longitude.nil?
+
+          new_provider.address              = new_provider_address
+          new_provider.legal_representative = new_legal_representative
+          new_legal_representative.address  = new_legal_representative_address
+
+          classification_codes.each do |classification_code|
+            classification = Classification.find_by code: classification_code.to_i
+
+            new_provider.classifications << classification
+          end
+
+          if new_provider.save
+            @last_imported_provider = new_provider
+
+            puts "Provedor #{new_provider.name} Importado com sucesso!"
+          else
+            puts "Provider #{new_provider.name} ERRO: #{new_provider.errors.messages}"
+          end
+        end
+
+        if row[0] == "SUPPLIER"
+          supplier_attributes = eval row[1]
+
+          new_supplier = Supplier.new
+          new_supplier.attributes             = supplier_attributes
+          new_supplier.provider_id            = @last_imported_provider.id
+          new_supplier.encrypted_password     = nil
+          new_supplier.reset_password_token   = nil
+          new_supplier.reset_password_sent_at = nil
+          new_supplier.remember_created_at    = nil
+          new_supplier.sign_in_count          = 0
+          new_supplier.current_sign_in_at     = nil
+          new_supplier.last_sign_in_at        = nil
+          new_supplier.current_sign_in_ip     = nil
+          new_supplier.last_sign_in_ip        = nil
+          new_supplier.avatar                 = nil
+
+          new_password = Digest::SHA256.hexdigest new_supplier.email
+          new_supplier.password              = new_password 
+          new_supplier.password_confirmation = new_password 
+
+          if new_supplier.save
+            puts "Fornecedor #{new_supplier.email} importado com sucesso!"
+          else
+            puts "Supplier #{new_supplier.email} ERRO: #{new_supplier.errors.messages}"
+          end
+        end
+      end
+    end
   end
 end
