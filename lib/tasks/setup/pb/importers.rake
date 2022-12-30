@@ -158,7 +158,7 @@ namespace :pb do
       def find_city_id(city_id)
         city_id_integer = city_id.to_i
 
-        city_id_integer > 3540 ? city_id_integer + 1 : city_id_integer
+        city_id_integer > 3540 ? city_id_integer - 1 : city_id_integer
       end
 
       CSV.foreach(file, headers: false, col_sep: '|') do |row|
