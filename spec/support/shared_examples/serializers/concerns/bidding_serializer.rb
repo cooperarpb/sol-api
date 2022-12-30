@@ -13,7 +13,7 @@ RSpec.shared_examples "a bidding_serializer" do
   describe 'attributes' do
     let(:can_finish) do
       (object.under_review? || object.reopened?) &&
-        (object.lots.pluck(:status) - ["accepted", "desert", "failure"]).empty?
+        (object.lots.pluck(:status) - ["accepted", "desert", "failure", "canceled"]).empty?
     end
 
     let(:supp_can_see) { object.finnished? }

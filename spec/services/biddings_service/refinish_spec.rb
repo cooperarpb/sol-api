@@ -243,6 +243,19 @@ RSpec.describe BiddingsService::Refinish, type: :service do
         it { expect(worker.jobs.size).to eq(0) }
         it { expect(report_worker.jobs.size).to eq(0) }
       end
+
+      context 'and bidding has a valid status' do
+        context 'and a lot is canceled' do
+          before do
+            bidding.reopened!
+            bidding.lots.first.canceled!
+            subject
+            bidding.reload
+          end
+
+          it { expect(bidding.finnished?).to be_truthy }
+        end
+      end
     end
   end
 
