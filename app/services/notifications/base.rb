@@ -29,6 +29,8 @@
 module Notifications
   class Base
 
+    attr_accessor :send_fcm_notification
+
     def call
       notify
     end
@@ -46,7 +48,11 @@ module Notifications
         notification = Notification.create(notification_attributes(receiver))
 
         if notification
-          ::Notifications::Fcm.delay.call(notification.id)
+          # XXX: A configuração do envio de push notification para a PB não é possível no momento,
+          # pois a atualização da gem fcm entra em conflito com outras gems que utilizam
+          # versões diferentes da gem Faraday.
+          # Assim que o sistema puder ser atualizado e testado, a funcionalidade poderá ser validada novamente.
+          ::Notifications::Fcm.delay.call(notification.id) if send_fcm_notification?
 
           # Envia e-mail junto com a notificação com o mesmo conteúdo.
           # Email deve ser enviado apenas para usuários que não sejam fornecedores
@@ -55,6 +61,10 @@ module Notifications
           ::NotificationMailer.notification_email(notification).deliver_later unless receiver.is_a?(Supplier)
         end
       end
+    end
+
+    def send_fcm_notification?
+      send_fcm_notification || false
     end
 
     def notification_attributes(receiver)
